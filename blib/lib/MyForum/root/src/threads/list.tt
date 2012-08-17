@@ -1,0 +1,95 @@
+[% META title='Thread list' %]
+
+<table class="list" >
+    
+     <!-- TABLE HEADER-->
+     <thead>
+		
+         <tr>
+              <th>&nbsp</th><th>[% c.socal('thread') %]/[% c.socal('author') %]</th>
+			  <th>[% c.socal('lastpost') %]</th><th>[% c.socal('answers') %]</th>
+			  <th>[% c.socal('viewed') %]</th> 
+         </tr>
+     </thead>
+
+        <!-- TABLE BODY: MAIN CONTENT-->
+        <tbody>
+    [% WHILE (thread  = rs.next) %]
+        <tr>
+            [% # This is Icon for each thread %]   
+            <td class='state'>
+            [%	"New" IF thread.is_new() %]
+            [%# thread.id %]
+            </td> 
+            
+            [% # Each thread have title/author %]
+            <td class='title' >
+                 <div>
+                    <div>
+                        <a  href="[% c.uri_for("/threads/view/")_(thread.id) %]" alt="Read thread">
+                            [% thread.title %]
+                        </a>
+                    </div>
+                    <div>
+                        By: <a href="[% c.uri_for("/") %]" alt="Show author">
+                             [% thread.author %]
+                            </a>
+                    </div>
+                </div>
+            </td>
+
+            [% # Last post title and date %]
+            <td class='last_post'> 
+                [% last_post = thread.last_post %]
+                [% IF last_post %]
+                <div>
+                     <div>
+                        [% last_post.created_date %]
+                    </div>    
+                    <div>
+                        By: <a href="[% c.uri_for("/") %]" alt="Show author">
+                             [% last_post.author %]
+                            </a>
+                    </div>
+                </div>
+            [% END %]
+            </td>
+            
+            [% # Number of posts in this thread %]
+            <td class='num'>[% thread.num_posts %]</td>
+            
+            [% # Number of viewd in this thread %]
+            <td class='num'>[%   %]</td>
+        </tr>
+    [% END %]
+        </tbody> 
+     <!-- TABLE FOOTER-->
+      <tfoot>
+        <tr>
+	    <td>
+		[% IF c.user_exists %]
+			[% IF c.check_any_user_role( 'user', 'admin' ) %]
+			<a href="[% c.uri_for('/threads/add') %]">[% c.socal('newthread') %]</a>
+			[% END %]
+		[% ELSE %]
+		   &nbsp
+		[% END %]
+	    </td>
+	    <td>&nbsp</td><td>&nbsp</td><td colspan='2'>
+	    <div class='paper'>
+			<a href="[% c.uri_for('/threads', p => paper.first_page) %]">[% c.socal('firstpage') %]</a>
+			[% IF paper.previous_page %]
+			<a href="[% c.uri_for('/threads', p => paper.previous_page) %]"><<</a>
+			[% END %]
+			&nbsp
+			<strong>[% paper.current_page %]</strong>
+			&nbsp
+			[% IF paper.next_page %]
+			<a href="[% c.uri_for('/threads', p => paper.next_page) %]">>></a>
+			[% END %]
+			<a href="[% c.uri_for('/threads', p => paper.last_page) %]">[% c.socal('lastpage') %]</a>
+		</div>	
+	    </td>
+	</tr>
+    </tfoot>
+</table>

@@ -1,0 +1,3 @@
+ [% META title='lang.tt' %]
+ <form method='post'>
+ </form>

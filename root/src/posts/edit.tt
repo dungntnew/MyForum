@@ -1,0 +1,25 @@
+ [% META title='Template for add edit post' %]
+<div class='reply' style='display: block'>
+	<div class="smallfont">
+		<h2 style="display: inline; padding: 0px; margin: 0px;font-size: 12px; margin-left: 15px;">[% c.socal('edit_msg')_" : "_(thread.title) %]</h2>
+	</div>
+<hr style="background: #cccccc; width: 100%; margin:4px; height: 1px;"/>
+<!-- Request to action post->add with current params -->
+<form class='postadd' id="addpost_form" method="post" action="[% c.uri_for("/posts",c.req.args.0, c.req.args.1 , c.req.query_params)%]">
+<input type="hidden" name="picture" id="picture" value="[% item.picture %]"/>
+<textarea name='content' id='text_content' class='body' cols='80' rows='10' style='margin-top:20px' class="required">[% item.content %]</textarea></td>
+</form>
+
+<form class='postadd' id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+		<fieldset>
+			<legend>[% c.socal('upload_option') %]</legend>
+			<span class="file-wrapper" style="margin-left: 10px">
+			<input type="file" name="file" />
+			<img src="[% c.uri_for('/static/images/blank.png')%]" alt="choose picture" class="thread-image"/>
+			</span>
+		</fieldset>
+</form>
+<div class="postadd">
+	<input type="submit" id="post_bnt" name="submit" value="[% c.socal('update') %]"/>
+</div>
+</div>

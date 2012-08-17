@@ -1,0 +1,34 @@
+[% META title='User manage'%]
+
+<table class='list'>
+    <tr>
+         <th> Username </th>  <th> Role </th> <th> Email </th> <th> Created</th> <th>Status</th><th>Operation</th>
+    </tr>
+
+    [% WHILE ( user = rs.next) %]
+    <tr id="row[% user.id %]">
+        
+        <td> <a class="edit" href="[% c.uri_for("/admin/users/edit/"_(user.id))%]">
+	    [% user.username %]</a>
+        </td>
+	<td>    [% FOREACH r IN user.roles%]
+		[% r.role %],
+		[% END %]
+        </td>
+        <td>[% user.email %]</td>
+        <td>[% user.date %]</td>
+        <td class='status' >
+          [% IF user.active %]
+             <a id="[% user.id%]" href="javascript:void(0)" class="actived">actived</a>
+         [% ELSE %]
+             <a id="[% user.id%]" href="javascript:void(0)" class="inactive">Inactived</a>
+         [% END %]
+  
+        </td>
+        <td class="operator">
+            <a class="delete"  href="[% c.uri_for("/admin/users/delete/"_(user.id))%]">Delete</a> <br/>
+           
+        </td>
+    </tr>
+    [% END %]
+</table>

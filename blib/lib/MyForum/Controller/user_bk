@@ -1,0 +1,222 @@
+package MyForum::Controller::Users;
+use Moose;
+use namespace::autoclean;
+
+BEGIN { extends 'Catalyst::Controller'; }
+
+=head1 NAME
+
+MyForum::Controller::Users - Catalyst Controller
+
+=head1 DESCRIPTION
+
+Catalyst Controller.
+
+=head1 METHODS
+
+=cut
+
+
+=head2 index
+
+=cut
+
+sub base :Chained('/') :PathPart('users') :CaptureArgs(0) {
+    my ($self, $c) = @_;
+
+    # Store the Resultset userdata into the stash
+    $c->stash(resultset =>$c->model("DB::User"));
+
+    # Print Message in the Debug
+    $c->log->debug("*** INSIDE User::base method ***");
+}
+
+sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
+    my ($self, $c, $id) = @_;
+
+    # Find the user object in the stash
+    $c->stash(object =>$c->stash->{resultset}->find($id));
+
+    # Make sure the lookup was successul
+    die "User $id not found!" unless $c->stash->{object};
+    
+    # Prin Log message
+    $c->log->debug("*** INSIDE User::object method for Obj id=$id ***");
+}
+
+# Sub base for admin/users
+sub admin_base :Chained('/') :PathPart('admin/users') :CaptureArgs(0) {
+    my ($self, $c ) = @_;
+
+    my $resultset = $c->model("DB::User");
+    unless ($resultset) {
+        # handle fatal error    
+    }
+    $c->stash(rs => $resultset);
+}
+
+# Sub item for admin/users/action/id
+# also handle action request
+sub admin_item :Chained('admin_base') :PathPart('') :Args(2) {
+    my ($self, $c, $action, $id) = @_;
+    my $item = $c->stash->{rs}->find($id);
+    unless ($item) {
+        # fatal error ->notify user
+        $c->stash(  status => 'error', msg => 'Not found.', id => $id);
+        die "User id $id not found. System died.";
+    }
+    $c->stash(
+        status => 'success',
+        msg    => "Found user id: $id",
+        id     => $id,
+        item   => $item, 
+    );
+    $c->log->debug("*** Detach to $action ***");
+    $c->detach($action);
+}
+
+
+# URL: /admin/users/delete/id
+sub delete :Chained('admin_base') :PathPart('delete') :Args(0) {
+    my ($self, $c) = @_;
+   
+    $c->stash->{item}->delete;
+    $c->stash(  status => "success", 
+                msg => "User deleted." );
+    $c->stash->{template} =>'users/delete';
+}   
+
+# URL: /admin/users/add
+# Forward from : /admin/users/edit/id
+# Params: POST
+# Local Args: ...
+sub add :Chained('admin_base'): PathPart('add') :Args() {
+    my ($self, $c ) = @_;
+
+    # Handle form submited
+    if ( lc $c->req->method eq 'post') {
+        my $params = $c->req->params;
+        my $user_rsrc = $c->stash->{rs}->result_source;
+        my $user_data = {}; 
+
+        # Setup new user data
+        foreach my $col ($user_rsrc->columns) {
+            if ( defined $params->{$col} ) {
+                $user_data->{ $col } = $params->{ $col };   
+             }    
+        }
+
+        # Validate user
+        my $user_rs = $c->stash->{rs}->search( {username => $user_data->{username}}) ;
+        if ( $user_rs->count ) {
+            $c->stash( status => 'error', 'msg' => 'username: '.$user_data->{username} . ' really exist');
+        }
+
+        # Validate email
+        $user_rs = $c->stash->{rs}->search( { email => $user_data->{email} });
+        if ($user_rs->count) {
+            $c->stash( status=> 'error', 'msg' => 'email: '.$user_data->{email}. ' really exist');    
+        }
+
+        # Unless have any error ? 
+        if ( $c->stash->{status} ne 'error') {
+            $c->stash->{rs}->create($user_data);
+            $c->stash(template => 'users/add.tt', status =>"success");
+        }else {
+            $c->stash(template => 'users/add.tt', status => 'error');
+        }
+    }else {
+        # Render edit 
+        $c->stash( levels => [$c->model('DB::Level')->all]);
+        $c->stash( template => 'users/add.tt') ;    
+    }
+}
+
+# URL: /admin/users/edit/id
+sub edit :Chained('admin_base') :PathPart('edit') :Args(0) {
+    my ($self, $c)  = @_;
+    # handle update action
+    if (lc $c->req->method eq 'post') {
+        my $params = $c->req->params;
+        my $user_rsrc = $c->stash->{item}->result_source;
+        my $user_data = {}; 
+
+        # Setup new user data
+        foreach my $col ($user_rsrc->columns) {
+            if ( defined $params->{$col} ) {
+                $user_data->{ $col } = $params->{ $col };   
+             }    
+        }
+
+        $c->stash->{item}->update($user_data);
+        $c->stash(template => 'users/edit.tt', status => 'success');
+
+    }else {
+        $c->stash( levels => [$c->model('DB::Level')->all]);
+        $c->stash( template => 'users/edit.tt') ;    
+    }
+}
+
+
+# URL: /admin/users/list
+sub list :Chained('admin_base') :PathPart('') :Args(0) {
+    my ($self, $c) = @_;
+
+    $c->stash( count => $c->stash->{rs}->count, 
+               template => 'users/list.tt');
+
+}
+
+sub login :Chained('base') : PathPart('login') :Args(0) {
+    my ($self, $c ) = @_;
+
+    # Get username and password from form
+    my $username = $c->request->params->{username};
+    my $password = $c->request->params->{password};
+
+    # If username and password not empty
+    if ($username && $password) {
+        
+        # Attempt to log the user in
+        if ( $c->authenticate({ username => $username,
+                                password => $password }) ) {
+                # If successful, then let do some thing
+                $c->response->body("Okie men");
+                return;
+        }else {
+            # Set a error
+            $c->stash(error_msg => "Bad username or password.");
+        }
+    }else {
+        #  Set a error
+        $c->stash(error_msg => "Empty username or password") 
+            unless ($c->user_exists);
+    }
+
+    # If either of above don't work out, send to the login page
+    $c->stash(template => 'users/login.tt');
+}
+
+sub logout :Chained('base') :PathPart('logout') :Args(0) {
+    my ( $self, $c )  = @_;
+    # Clear the user's state
+    $c->logout;
+    # Send the user to the index page
+    $c->response->redirect($c->uri_for('/'));
+}
+
+
+=head1 AUTHOR
+
+NTD
+
+=head1 LICENSE
+
+This library is free software. You can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut
+
+__PACKAGE__->meta->make_immutable;
+
+1;

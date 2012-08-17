@@ -1,0 +1,51 @@
+<div class='paper'>
+	<a href="[% c.uri_for('/posts', c.req.mangle_params( {p => paper.first_page})) %]">[% c.socal('firstpage') %]</a>
+	[% IF paper.previous_page %]
+	<a href="[% c.uri_for('/posts',  c.req.mangle_params( {p => paper.previous_page})) %]"><<</a>
+	[% END %]
+	&nbsp
+	<strong>[% paper.current_page %]</strong>
+	&nbsp
+	[% IF paper.next_page %]
+	<a href="[% c.uri_for('/posts',  c.req.mangle_params( {p => paper.next_page})) %]">>></a>
+	[% END %]
+	<a href="[% c.uri_for('/posts',   c.req.mangle_params( {p => paper.last_page})) %]">[% c.socal('lastpage') %]</a>
+</div>	
+
+
+
+[% WHILE(post = rs.next) %]
+	[% INCLUDE 'posts/post.tt'%]
+[% END %]
+
+<div class='paper'>
+	<a href="[% c.uri_for('/posts', c.req.mangle_params( {p => paper.first_page})) %]">[% c.socal('firstpage') %]</a>
+	[% IF paper.previous_page %]
+	<a href="[% c.uri_for('/posts',  c.req.mangle_params( {p => paper.previous_page})) %]"><<</a>
+	[% END %]
+	&nbsp
+	<strong>[% paper.current_page %]</strong>
+	&nbsp
+	[% IF paper.next_page %]
+	<a href="[% c.uri_for('/posts',  c.req.mangle_params( {p => paper.next_page})) %]">>></a>
+	[% END %]
+	<a href="[% c.uri_for('/posts',   c.req.mangle_params( {p => paper.last_page})) %]">[% c.socal('lastpage') %]</a>
+</div>	
+
+<div class='edit' style='display: none'>
+	<div class="smallfont">
+		<h2 style="display: inline; padding: 0px; margin: 0px;font-size: 12px; margin-left: 15px;">[% c.socal('edit_msg') %]</h2>
+	</div>
+<hr style="background: #cccccc; width: 100%; margin:4px; height: 1px;"/>
+
+[% INCLUDE 'posts/edit.tt' %]
+</div>
+
+<div class='reply' style='display: none'>
+	<div class="smallfont">
+		<h2 style="display: inline; padding: 0px; margin: 0px;font-size: 12px; margin-left: 15px;">[% c.socal('reply_msg') %]</h2>
+	</div>
+<hr style="background: #cccccc; width: 100%; margin:4px; height: 1px;"/>
+
+[% INCLUDE 'posts/add.tt' %]
+</div>

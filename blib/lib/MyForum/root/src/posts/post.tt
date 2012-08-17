@@ -1,0 +1,96 @@
+[% META title='post' %]
+
+
+
+
+[% IF post.user %]
+	[% SET user = post.user %]
+[% ELSE %]
+	[% SET user = { username => 'guest', fullname=>'Guest Member', date=>'', num_posts => '', avatar => c.uri_for('/static/images/guest_avatar.jpg')} %]
+[% END %]
+
+<div class='post'>
+<table id="" class="tborder" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+<tbody>
+
+<tr>
+		<td class="thead" style="font-weight:normal; border: 0px solid #262626; border-right: 0px; text-align: center">
+			[% post.created_date %]
+		</td>
+
+		<td class="thead" style="font-weight:normal; border: 0px solid #262626; border-left: 0px" align="right">
+			&nbsp;
+			#<a href="" target="new" rel="nofollow" id="" name="7"><strong>[% post.id %]</strong></a>
+		</td>
+	
+</tr>
+
+<tr valign="top">
+	<td class="alt2" width="175" style="max-width:175px; border: 0px solid #262626; border-top: 0px; border-bottom: 0px" align="center">
+
+			<div id="">
+				<a class="bigusername" href=""><font color="green"><strong>[% user.username %]</strong></font></a> 
+			</div>
+
+			<div class="smallfont">[% user.fullname %]</div>
+
+			<div class="smallfont">
+				<img title="" src="">
+				<img title="" src="">
+				<img title="" src="">
+			</div>
+			
+
+			
+			<div class="smallfont">
+				<a href=""><img src="[% user.avatar %]" width="128" height="128" alt="Avatar" border="0" title="Avatar"></a>
+			</div>
+			[% IF user.username != 'guest' %]
+			<div class="smallfont">
+				<div>[% c.socal('date') %]: [% user.created_date %]</div>
+				<div>
+					[% c.socal('posts') %]: [% user.num_posts %]
+				</div>
+				<div>     
+                </div>
+             [% END %]
+			</div>
+	</td><!-- END LEFT COLUMN -->
+	
+	<td class="alt1" id="" style="border-right: 0px solid #262626">
+		[% IF paper.current_page == paper.first_page %]
+			<div class="smallfont">
+				<img class="inlineimg" src="[% c.uri_for('/static/images/thread_icon.gif') %]" alt="Thread" border="0" title="Thread icon">
+				<h2 style="display: inline; padding: 0px; margin: 0px;font-size: 12px;">[% thread.title %]</h2>
+			</div>
+			<hr style="background: #cccccc; width: 100%; margin:4px; height: 1px;"/>
+		[% END %]
+		
+
+		<div class="post_message">
+			[% post.content %]
+		</div>
+	
+		<div>
+			[% IF post.picture %]
+			<img class='ppicture' style="max-width:500px" src="[% post.picture %]" alt="Picture" border="0" title="Picture">
+			[% END %]
+		</div>
+	</td> <!-- END RIGHT COLUMN-->
+
+</tr>
+
+
+<tr>
+	<td class="alt2" width="175" style="border: 0px solid #262626; border-top: 0px">
+		&nbsp;
+	</td>
+	
+	<td class="alt1" align="right" style="border: 0px solid #262626; border-left: 0px; border-top: 0px">
+		<a href="[% c.uri_for( c.controller('Posts').action_for('add') ) %]">[% c.socal('reply')%]</a>
+	</td>
+</tr>
+
+</tbody>
+</table>
+</div>

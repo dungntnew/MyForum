@@ -1,0 +1,19 @@
+[% META title='New Topic' %]
+
+<form class='topic' id="addtopic_form" method="post" action="[% c.uri_for(c.controller('Topics').action_for('add'))%]">
+<table class='tcreate'>
+<tr>
+	<td><label for="title">[% c.socal('title') %]: </label><em>*</em></td>
+	<td><input type="text" name="title" id="title" size="80" class="required" minlength="4" autofocus></td>
+</tr>
+<tr>
+	<td>  <label for="description">[% c.socal('desc') %]: </label><em>*</em></td>
+	<td><textarea name='description' class='body' cols="80" rows="10" class="required"></textarea></td>
+</tr>
+<tr>
+	<td colspan='2'><input type="submit" id="topic_bnt" name="submit" value="[% c.socal('create') %]"/></td>
+</tr>
+</table>
+</form>
+
+

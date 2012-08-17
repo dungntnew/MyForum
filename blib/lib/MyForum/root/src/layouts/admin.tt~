@@ -1,0 +1,107 @@
+[% META
+    title = 'Home Layout'
+%]
+<!Doctype html>
+<html lang="end">
+<head>
+<title> YUKI-Home </title>
+<meta charset="UTF-8" />
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/main.css') %]">
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/table.css') %]">
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/style-table.css') %]">
+<link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/table-post.css') %]">
+<script type="text/javascript">
+    image_url = "[% c.uri_for('root/static/images/')%]";
+</script>
+
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/jquery.form.js"></script>
+<script type="text/javascript" src="/static/js/jquery.validate.js"></script>
+<script type="text/javascript" src="/static/js/admin.js"></script>
+</head>
+
+<body>
+<div id='wrapper'>
+
+<header id="navigation">
+    <div id="logo">
+	    <img src="[% c.uri_for('/static/images/BWD_logo.gif') %]" width="184" height="18" alt="Black White">
+    </div>
+    <nav id="nav">
+			<ul>
+				<li>
+					[% c.socal('lang') %]: <strong><a id="lang" href="[% c.uri_for(c.action, {lang=>nlang}) %]">[% lang %]</a></strong>
+				</li>
+				<li><img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|"></li>
+				[% 	IF c.user_exists		%]
+				[%		welcome = 'block'	%]
+				[%		hi		= 'none'	%]
+				[%	ELSE 					%]
+				[%		welcome = 'none'	%]
+				[%		hi		= 'block'	%]
+				[%	END						%]
+				
+				<li class='welcome' style='display: [% welcome %]' >
+					[% c.socal('welcome') %]&nbsp<a id="user" href="javascript: void(0)">[% c.user.username %]</a>
+				</li>
+				
+				<li class='welcome' style='display: [% welcome %]'>
+					<img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|">
+				</li>
+				<li class='welcome' style='display: [% welcome %]'>
+					<a class="signOut" href="[% c.uri_for(c.controller('Auth').action_for('signOut')) %]">[% c.socal('signOut') %]</a>
+				</li>
+				
+				<li class='hi' style='display: [% hi %]'>
+					<a class="signIn" href="[% c.uri_for(c.controller('Auth').action_for('signIn')) %]">[% c.socal('signIn')%]</a>
+				</li>
+				
+				
+				
+		
+				
+			</ul>
+	</nav>
+	<div id="authdiv">
+		<div id="authMsg"></div>
+		[% INCLUDE 'auth/login.tt' %]
+	<div>
+</header>
+
+
+<div id="container">
+    <div class="status">
+    	<div id="msg"></div>
+    </div>
+    <div id='navbar'>
+		 <section>
+		    <header>
+		        <h3>User manager</h3>
+		    </header>
+		    <ul>
+		    <li><a href="[% c.uri_for('/admin/users/add')%]">Add user </a></li>
+		    <li><a href="[% c.uri_for('/admin/users')%]" >List users </a></li>
+		    </ul>
+		</section>
+		 <section>
+		    <header>
+		        <h3>Topic manager</h3>
+		    </header>
+		    <ul>
+		    <li><a href="[% c.uri_for('/admin/topic/add')%]">Add topic </a></li>
+		    <li><a href="[% c.uri_for('/admin/topic/list')%]">List topic </a></li>
+		    </ul>
+		</section>
+	</div>
+	
+    <div>
+        [% content %]
+    </div>
+</div>
+
+
+<footer id="copyright">
+    <section>Yuki-forum copyright@ dungntnew@kayac</section>
+</footer>
+</wrapper>
+</body>

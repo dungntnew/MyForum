@@ -1,0 +1,35 @@
+<div id="signUpDiv">
+	<form id="avatar_upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+	 <p>
+		<span class="file-wrapper">
+		<input type="file" name="file"/>
+		<img src="[% c.uri_for('/static/images/default_avatar.png')%]" alt="choose picture" class="button"/>
+		</span>
+	</p>
+	</form>
+	<form id = "registerform" action="[% c.uri_for('/auth/signUp') %]" method="post" accept-charset="utf-8">
+		<input type="hidden" name="avatar" id="avatar" value="[% c.uri_for('/static/images/default_avatar.png')%]"/>
+		<div class='field'>
+			<input type="text" name="username" value="" id="username" placeholder="[% c.socal('username') %]" class="required username"/>
+		</div>
+		<div class='field'>
+		<input type="password" name="password" value="" id="password" placeholder="[% c.socal('password') %]"  class="password required"/>
+		</div>
+		<div class='field'>
+		<input type="password" name="confirm" value="" id="confirm" placeholder="[% c.socal('confirm') %]" equalTo='#password' class="password required"/>
+		</div>
+		<div class='field'>
+		<input type="email" name="email" value="" id="email" placeholder="[% c.socal('email') %]"  class="email required"/>
+		</div>
+		<div class='field'>
+		<input type="text" name="first_name" value="" id="fname" placeholder="[% c.socal('first_name') %]" />
+		</div>
+		<div class='field'>
+		<input type="text" name="last_name" value="" id="lname" placeholder="[% c.socal('last_name') %]" />
+		</div>
+		<div class='field'>
+		    <input id="signIn" type="submit" value="[% c.socal('signUp') %] &rarr;">
+		</div>
+	</form>
+</div>
+

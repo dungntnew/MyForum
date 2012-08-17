@@ -1,0 +1,19 @@
+[% IF ! c.user_exists %]
+<div id="signInDiv">
+	<form id = "loginform" action="[% c.uri_for('/auth/login') %]" method="post" accept-charset="utf-8">
+		<div class=''>
+		<input type="text" name="username" value="" id="username" placeholder="[% c.socal('username') %]"  class="required"/>
+		</div>
+		<div class='field'>
+		<input type="password" name="password" value="" id="password" placeholder="[% c.socal('password') %]"  class="password"/>
+		</div>
+		
+		<div class='field'>
+		    <input id="signIn" type="submit" value="[% c.socal('signIn') %] &rarr;">
+		</div>
+	</form>
+[% ELSE %]
+    <p>You are already logged in. <a href="[% c.uri_for('/auth/logout')%]">[% c.socal('signOut') %]</a></p>
+[% END %]
+</div>
+

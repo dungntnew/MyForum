@@ -1,0 +1,38 @@
+welcome: Xin chào
+lang: Ngôn ngữ
+title: Tiêu đề
+content: Nội dung
+desc: Mô tả
+insert image: Chèn ảnh
+create: Tạo mới
+forum: Diễn đàn
+profile: Cá nhân
+signIn: Đăng nhập
+signUp: Đăng ký
+signOut: Đăng xuất
+username: Tên đăng nhập
+password: Mật khẩu
+confirm: Xác nhận
+email: Hộp thư
+first_name: Tên
+last_name: Họ
+newtopic: Tạo Chủ Đề
+newthread: Tạo thread
+topic: Chủ đề
+thread: Thread
+topics: Số chủ đề
+lastpost: Mới gửi
+posts: Số bài viết
+threads: Số threads
+firstpage: Đầu
+lastpage: Cuối
+author: Tác giả
+answers: Trả lời
+viewed: Đã xem
+login_error: Tên truy nhập hoặc mật khẩu không đúng
+reply: Trả lời
+date: Tham gia
+upload_option: Tùy chọn tải file
+reply_msg: Trả lời nhanh
+create_thread_msg: Tạo thread mới
+

@@ -1,0 +1,320 @@
+* {
+     margin: 0;
+     padding: 0;
+     border: none;
+	 list-style:none;
+}
+
+body {
+
+	font-size: 11px;
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	background-color: white;
+	color: #818992;
+}
+
+header, footer, aside, section {
+	display:block;
+}
+
+td, th, p, li {
+	/*color: #89A5C7;*/
+	font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+
+.clear {
+   clear:both;
+}
+
+input {
+	border:  1px solid #535353;
+}
+a {
+	/*color: #C0C4C9;*/
+}
+
+
+/** PAGE LAYOUT **/
+
+#topbar {
+	position:relative;
+	width: 880px;
+	margin: 0 auto;
+	padding-bottom: 30px;
+}
+
+#topnav {
+	width: 100%;
+    overflow: hidden;
+	height: 20px;
+    border-bottom: 1px solid #CCC;
+}
+
+#container{
+	height: 80%;
+    width: 100%;
+    overflow: auto;
+	position: relative;
+}
+
+
+#content {
+	height: 100%;
+    float: right;
+    display:block;
+    width: 80%;
+    overflow: auto;
+}
+
+.logo {
+	float: left;
+	width: 184px;
+	height: 18px;
+}
+
+#auth {
+	float: right;
+	width: 295px;
+	padding: 3px 0 0 400px;
+}
+
+
+#homecontent {
+	height: 100%;
+    display:block;
+    width: 80%;
+	margin: 0px auto;
+    overflow: hidden;
+}
+#left_column{
+	width: 150px;
+	height: 100%;
+	display:block;
+    float: left;
+    overflow: hidden;
+    position: relative;
+	border-right:  1px solid #535353;
+	background: none repeat scroll 0 0 #F2F2F2;
+}
+
+#left_column a {
+   /*color:#528CE0;*/
+}
+
+aside section {
+    border-radius: 11px;
+	margin: 5px;
+    padding: 5px;
+}
+
+#footbar {
+	padding:2px;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+	background: none repeat scroll 0 0 #F2F2F2;
+}
+
+#ajax-loading {
+    display: none;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0.31;
+    z-index: 100000;
+    background: none repeat scroll 0 0 black;
+}
+
+
+#ajax-loading img {
+    display: block;
+    margin: 300px auto;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
+#msg, .message, .info, .success, .warning, .error {
+	/*color: black;*/
+}
+.status .info {
+	
+	background-color: #BDE5F8;
+}
+.status .success {
+	
+	background-color: #DFF2BF;
+
+}
+.status .warning {
+	
+	background-color: #FFFABF;
+}
+.status .error {
+	
+	background-color: #FFBABA;
+}
+
+.actived {
+    color: green;    
+}
+
+.inactive {
+    color: red;    
+}
+
+form {
+	
+	padding: 10px;
+}
+
+.col {
+	width: 48%;
+	float: left;
+}
+.file-wrapper {
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+ }
+
+.file-wrapper .button {
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: thin solid green;
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+.file-wrapper .thread-image{
+	border: 1px solid #D4D4D4;
+	max-width: 400px;
+	max-height: 300px;
+	
+}
+
+.file-wrapper input {
+    width: 64px;
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    filter: alpha(opacity=1);
+    -moz-opacity: 0.01;
+    opacity: 0.01;
+}
+
+.file-wrapper input:hover  {
+	border: thin solid red;
+}
+
+fieldset {
+	padding:10px;
+	margin:10px;
+	position:relative;
+}
+
+form label {
+	display: table-cell;
+	width: 10em;
+	vertical-align: top;
+}
+
+label.error {
+    color: red;
+    float: none;
+    padding-left: 0.5em;
+    vertical-align: top;
+}
+
+form p {
+	display:table-row;
+	height: 40px;
+}
+
+form em {
+    font-weight: bold;
+    padding-right: 1em;
+    vertical-align: top;
+}
+
+form input,textarea {
+	margin-left: 4px;
+	width:160px;
+	display: table-cell;
+}
+
+form.thread input[type=text],
+form.thread textarea.body {
+	width: 400px;
+}
+
+form.thread textarea.body {
+	height: 100px;	
+}
+
+
+
+nav ul {
+	margin:0 auto;
+}
+
+nav ul li {
+	float:left;
+	margin-right:20px;
+}
+
+nav ul li a{	
+}
+
+/* Page */
+.paper {
+	float: right;
+}
+
+/* Login */
+.login_tb {
+	
+}
+td, td.label {
+	font-size: 11px;
+	text-align: left;
+}
+.login_tb tr {
+	vertical-align: top;
+}
+.login_tb td {
+	padding: 0 0 0 14px;
+}
+.login_tb tr .label {
+	padding-bottom: 4px;
+}
+.login_tb  .inputtext, .login_tb  .inputpassword {
+	border-color: #1D2A5B;
+	margin: 0;
+	width: 142px;
+}
+.inputtext, .inputpassword {
+	padding-bottom: 4px;
+}
+textarea, .inputtext, .inputpassword {
+	border: 1px solid #BDC7D8;
+	font-family: 'lucida grande',tahoma,verdana,arial,sans-serif;
+	font-size: 11px;
+	margin: 0;
+	padding: 3px;
+	-webkit-appearance: none;
+	-webkit-border-radius: 0;
+}
+

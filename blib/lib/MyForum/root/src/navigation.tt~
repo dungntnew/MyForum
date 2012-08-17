@@ -1,0 +1,20 @@
+    <div class="navigation">
+      <ul class="breadcrumb">
+    [% FOREACH crumb IN c.session.breadcrumb %]
+        <li class="[% crumb.class %]">
+      [% IF crumb.class=='lastDone' || crumb.class=='done' %]
+        [% back_uri = crumb.uri %]
+          <a href="[% crumb.uri %]">[% crumb.title %]</a>
+      [% ELSE %]
+          [% crumb.title %]
+      [% END %]
+        </li>
+    [% END %]
+      </ul>
+
+    [% IF back_uri %]
+      <div class="navigation_buttons">
+        <button class="button_previous" onClick="parent.location='[% back_uri %]'"> Back </button>
+      </div>
+    [% END %]
+    </div>

@@ -1,0 +1,74 @@
+table {
+	display: table;
+	border-collapse: separate;
+	border-spacing: 2px;
+	border-color: gray;
+
+}
+
+tr {
+	padding: 4px;
+}
+
+table.tcreate {
+	width: 100%;
+	text-align: left;
+	width: 100%;
+}
+table.tcreate td,table.tcreate td label {
+	vertical-align: top;
+}
+table.list {
+	border-collapse: collapse;
+	margin: 10px 0;
+	width: 100%;
+}
+
+table.list th {
+    border-bottom: 1px solid #EEEEEE;
+    color: #36607D;
+    font-weight: normal;
+    padding: 2px;
+}
+
+table.list tbody tr {
+	border-bottom: 1px solid #EEE;
+}
+
+table.list tbody td {
+	border-bottom: 1px solid #EEE;
+	padding: 2px;
+	text-align: left;
+	vertical-align: top;
+}
+
+table.list tbody td {
+	text-align: left;
+	padding-bottom:15px;
+}
+
+span.flag, .tree li span.flag {
+	display: block;
+	height: 16px;
+	float: left;
+	margin: 1px 0 0 0;
+	padding: 0;
+}
+
+table.list a {
+	color: #797070;
+}
+table.list td.state {
+	width: 80px;
+}
+table.list td.title {
+	width: 600px;
+}
+table.list td.num {
+	width: 80px;
+	text-align: center;
+}
+table.list td.last_post {
+	width: 150px;
+	text-align: left;
+}

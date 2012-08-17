@@ -1,0 +1,54 @@
+[% META title="Add new user" %]
+<form id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+ <p>
+    <span class="file-wrapper">
+    <input type="file" name="file"/>
+    <img src="[% c.uri_for('/static/images/default_avatar.png')%]" alt="choose picture" class="button"/>
+    </span>
+</p>
+</form>
+
+<form id="adduser_form" method="post" action="[% c.uri_for(c.controller('Users').action_for('add'))%]">
+<input type="hidden" name="avatar" id="avatar" value=""/>
+<p>
+    <label for="fname">First name:</label><em>*</em>
+    <input type="text" name="first_name" id="fname" class="required" minlength="4" autofocus>
+</p>
+
+<p>
+    <label for="lname">Last name:</label><em>*</em>
+    <input type="text" name="last_name" id="lname" class="required" minlength="4">
+</p>
+
+<p>
+    <label for="username">Username:</label><em>*</em>
+    <input type="text" name="username" id="username" class="required" minlength="4">
+</p>
+<p>
+    <label for="password">Password:</label><em>*</em>
+    <input type="password" name="password" id="password" class="required password">
+</p>
+<p>
+     <label for="email">Email:</label><em>*</em>
+     <input type="text" name="email" id="email" class="required email">
+</p>
+<p>
+     <label for="level">Level: </label><em>*</em>
+     <select name="level_id" id="level" class="required">
+     [% FOREACH level  IN levels %]
+          <option value="[% level.id %]"> [% level.name %] </option>
+     [% END %]
+     </select>
+</p>
+
+<p>
+    <label for='active'>Status: </label><em>*</em>
+    <select name="active" id="active" class="required">
+        <option value="0" [% "selected" IF item.active == 0 %] >Inactive</option>
+        <option value="1" [% "selected IF item.active == 1 "%] >Active</option>
+    </select>
+</p>
+<p>
+    <input type="submit" name="submit" value="Create"/>
+</p>
+<form>

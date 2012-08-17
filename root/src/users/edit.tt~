@@ -1,0 +1,72 @@
+[% META title="Add new user" %]
+<form id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+ <p>
+    <span class="file-wrapper">
+    <input type="file" name="file"/>
+    [% IF item.avatar %]
+        <img src="[% item.avatar %]" alt="choose picture" class="button"/>
+    [% ELSE %]
+        <img src="[% c.uri_for('/static/images/default_avatar.png')%]" alt="choose picture" class="button"/>
+    [% END %]
+    </span>
+</p>
+</form>
+
+<form id="adduser_form" method="post" action="[% c.uri_for(c.controller('Users').action_for('edit'), id)%]">
+<input type="hidden" name="avatar" id="avatar" value="[% item.avatar %]"/>
+<div class="col">
+<p>
+    <label for="username">Username:</label><em>*</em>
+    <input type="text" name="username" id="username" value="[% item.username %]" disabled class="required" minlength="4">
+</p>
+<p>
+     <label for="email">Email:</label><em>*</em>
+     <input type="text" name="email" id="email" value="[% item.email %]" class="required email" disabled >
+</p>
+<p>
+    <label for="password">Password:</label><em>*</em>
+    <input type="password" name="password" id="password" value="" class="required password">
+</p>
+<p>
+    <label for="re-password">Confirm:</label><em>*</em>
+    <input type="password" name="re_password" id="re_password" value="" class="required password">
+</p>
+
+</div>
+<div >
+<p>
+    <label for="fname">First name:</label><em>*</em>
+    <input type="text" name="fname" id="fname" value="[% item.first_name %]" class="required" minlength="4" autofocus>
+</p>
+
+<p>
+    <label for="lname">Last name:</label><em>*</em>
+    <input type="text" name="lname" id="lname" value="[% item.last_name %]" class="required" minlength="4">
+</p>
+
+<p>
+     <label for="role_ids">Role:</label><em>*</em>
+     <select name="role_ids" id="role_ids" class="required" multiple size="2">
+     [% FOREACH role  IN roles %]
+          [% SET selected = "" %]
+          [% FOREACH selected_role IN item.roles %]
+              [% SET selected = "selected" IF selected_role.id == role.id %]
+          [% END %]
+          <option value="[% role.id %]" [% selected %]> [% role.role %] </option>
+     [% END %]
+     </select>
+</p>
+<p>
+    <label for='active'>Status: </label><em>*</em>
+    <select name="active" id="active" class="required">
+        <option value="0" [% "selected" IF item.active == 0 %] >Inactive</option>
+        <option value="1" [% "selected" IF item.active == 1 %] >Active</option>
+    </select>
+</p>
+</div>
+<div class="clear">
+<p>
+    <input type="submit" name="submit" value="Update"/>
+</p>
+</div>
+<form>

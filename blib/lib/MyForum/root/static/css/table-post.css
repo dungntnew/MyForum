@@ -1,0 +1,65 @@
+.post {
+	padding-top: 8px;
+}
+td, th, p, li {
+	font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}
+
+.post_message {
+	text-align: left;
+	margin: 10px;
+}
+.inlineimg {
+	vertical-align: middle;
+}
+
+.reply {
+	border: 1px solid #cccccc;
+}
+.postadd {
+	margin: 10px auto;
+	width: 500px;
+}
+fieldset {
+	border: 1px solid #CCC;
+	font-size: 11px;
+}
+legend {
+	margin-left: 10px;
+	margin-right: 2px;
+}
+.tborder {
+	border: 1px solid #cccccc;
+	border-spacing: 0px;
+}
+
+
+
+td.thead, th.thead, div.thead {
+	padding: 4px;
+}
+
+.thead {
+	font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+	border-left: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+.alt2, .alt2Active {
+	padding: 6px;
+	border-left: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+.alt1, .alt1Active {
+	padding: 6px;
+	border-left: 1px solid #cccccc;
+	border-top: 1px solid #cccccc;
+	border-bottom: 1px solid #cccccc;
+}
+.bigusername {
+	font-size: 14pt;
+}
+.smallfont {
+	font: 11px verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+}

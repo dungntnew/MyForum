@@ -1,0 +1,20 @@
+ [% META title='Template for add new post' %]
+
+<!-- Request to action post->add with current params -->
+<form class='postadd' id="addpost_form" method="post" action="[% c.uri_for(c.controller('Posts').action_for('add') , c.req.query_params)%]">
+<input type="hidden" name="picture" id="picture" value=""/>
+<textarea name='content' id='content' class='body' cols='80' rows='10' style='margin-top:20px' class="required"></textarea></td>
+</form>
+
+<form class='postadd' id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+		<fieldset>
+			<legend>[% c.socal('upload_option') %]</legend>
+			<span class="file-wrapper" style="margin-left: 10px">
+			<input type="file" name="file"/>
+			<img src="[% c.uri_for('/static/images/blank.png')%]" alt="choose picture" class="thread-image"/>
+			</span>
+		</fieldset>
+</form>
+<div class="postadd">
+	<input type="submit" id="post_bnt" name="submit" value="[% c.socal('create') %]"/>
+</div>

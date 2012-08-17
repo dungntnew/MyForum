@@ -1,0 +1,207 @@
+*, html, body, img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	-webkit-text-size-adjust: none;
+}
+
+body {
+	font-family: 'HelveticaNeueW01-45Ligh', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	line-height: 21px;
+	background-color: #ffffff;
+	color: #818992;
+}
+
+a { 
+	color: #818992;
+	outline: none; 
+
+}
+:-moz-any-link:focus { 
+	outline: none; 
+}
+
+b { 
+	font-family: 'HelveticaNeueW01-65Medi', 'HelveticaNeue-Medium', 'Helvetica Neue Medium', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-weight: normal;
+}
+
+#wrapper {
+	margin: 20px auto;
+	width: 880px;
+	margin-bottom: 0px;
+}
+
+.clearfix {
+	clear: both;
+}
+
+/* Nav Styles */
+
+#navigation {
+	position: relative;
+	width: 880px;
+	margin: 0 auto;
+	padding-bottom: 30px;
+	border-bottom: 1px solid #cccccc;
+}
+
+#logo {
+	float: left;
+	width: 184px;
+	height: 18px;
+}
+#logo:hover {
+	cursor: pointer;
+}
+
+#nav {
+	float: right;
+	padding: 3px 0 0 400px;
+}
+
+#nav ul {
+	list-style-type: none;
+}
+
+#nav li {
+	float: left;
+	margin-left: 10px;
+}
+
+img.separator {
+	width: 1px;
+	height: 12px;
+	display: block;
+}
+
+/* Authentication - Login*/
+#authdiv {
+	display: none;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	z-index: 1000;
+	background: white;
+	border: thin solid #cccccc;
+	padding: 10px 20px;
+	border-radius: 2px;
+}
+#signInDiv, #signUpDiv {
+	width: 180px;
+}
+#signInDiv input, #signInDiv label,
+ #signUpDiv input, #signUpDiv label {
+	display: block;
+	
+}
+
+#button_nav {
+	min-height: 9px;
+	text-align: center;
+	border-bottom: 1px solid #cccccc;
+	padding-bottom: 10px;
+	width: 880px;
+	margin: 0px auto;
+}
+
+
+.float_left { float: left; }
+.float_right { float: right; }
+
+
+input, textarea {
+	border: 1px solid #cccccc;
+	padding: 2px; 
+	font-size: 12px;
+	line-height: 14px;
+	font-weight: normal;
+	margin: 3px 0 15px 0;
+	background-color: #ffffff;
+}
+
+label {
+	font-size: 12px;
+	line-height: 14px;
+	vertical-align: top;
+}
+
+.error{
+color: red;
+
+}
+#copyright {
+        font-size: 10px;
+        line-height: 12px;
+        text-align: center;
+        padding: 0 55px;
+        margin-top:10px;
+        
+}
+
+
+/* Styles for bottom text boxes */
+
+.info_text {
+	width: 880px;
+	margin: 0px auto;
+	display: none;
+
+}
+#home_text{
+	display: block;
+
+}
+
+/* Style for paper */
+.paper {
+	text-align: right;
+}
+
+/* Style for File upload*/
+.file-wrapper {
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+ }
+
+.file-wrapper .button {
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border: thin solid green;
+    width: 64px;
+    height: 64px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+.file-wrapper .thread-image{
+	border: 1px solid #cccccc;
+	max-width: 400px;
+	max-height: 300px;
+	
+}
+
+.file-wrapper input {
+    width: 64px;
+    cursor: pointer;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    filter: alpha(opacity=1);
+    -moz-opacity: 0.01;
+    opacity: 0.01;
+}
+
+.file-wrapper input:hover  {
+	border: thin solid red;
+}
+
