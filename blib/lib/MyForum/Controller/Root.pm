@@ -53,8 +53,8 @@ sub begin :Private {
 	
 	# Set lang to stash
 	unless ( defined $c->session->{lang}) {
-		$c->session->{lang} = 'en';	
-		$c->session->{nlang} = 'vi';
+		$c->session->{lang} = 'jp';	
+		$c->session->{nlang} = 'en';
 	} 
 	$c->stash->{nlang} = $c->session->{nlang};
 	$c->stash->{lang} = $c->session->{lang} ;	
@@ -105,6 +105,7 @@ sub default :Path {
 =head2 end
 
 Attempt to render a view, if needed.
+
 
 =cut
 

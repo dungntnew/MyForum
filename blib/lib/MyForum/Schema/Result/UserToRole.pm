@@ -24,7 +24,7 @@ __PACKAGE__->table("user_to_role");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d91f00)
+  extra: HASH(0x3a373b0)
   is_nullable: 0
   size: 10
 
@@ -32,7 +32,7 @@ __PACKAGE__->table("user_to_role");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d9f120)
+  extra: HASH(0x3a415e0)
   is_nullable: 0
   size: 10
 
@@ -59,9 +59,10 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("user_id", "role_id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-12 10:56:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KxF/Zhsf1Exjb79lqV5Okg
+# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-15 23:54:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KZS5b9/V51zuCAQLLTUPlw
 
 __PACKAGE__->belongs_to ( 'role', 'MyForum::Schema::Result::Role', { 'foreign.id' => 'self.role_id' } );
+__PACKAGE__->belongs_to ( 'user', 'MyForum::Schema::Result::User', { 'foreign.id' => 'self.user_id' } );
 # You can replace this text with custom content, and it will be preserved on regeneration
 1;

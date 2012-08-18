@@ -1,6 +1,7 @@
 package MyForum::Controller::Threads;
 use Moose;
 use namespace::autoclean;
+use HTML::Entities();
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -22,15 +23,21 @@ Catalyst Controller.
 =cut
 
 
+# Set thread_rs to reuse later
+# Base action can handle both session & request param.
 sub base :Chained('/') :PathPart('threads') :CaptureArgs(0) {
     my ($self, $c) = @_;
     
     # Get current topic 
-    my $topic = $c->model("DB::Topic")->find($c->session->{topic_id});
+    my $topic_id = $c->req->params->{topic} 
+                // $c->session->{topic_id};
+
+    my $topic = $c->model("DB::Topic")->find($topic_id);
     
     unless ( $topic) {
         die "Topic not found.";    
     }
+
 	$c->log->debug("*** Thread::base  ***");
 	$c->log->debug("*** Thread::base topic_id".$topic->id." ***");
     my $rs = $topic->threads;
@@ -66,18 +73,50 @@ sub item :Chained('base') :PathPart("") :Args(2) {
     $c->log->debug("*** Detach to $action ***");
     $c->detach($action);
 }
+
+# URL: /threads/delete/id
+sub delete :Chained('item') :PathPart('delete') :Args(0) {
+    my ($self, $c) = @_;
+    
+    my $thread = $c->stash->{item};
+    # Check permission here
+    if ( $c->user_exists &&  $c->check_user_roles('admin')  ) {
+		  # Delete here
+    	  $c->stash->{item}->delete;
+    	  $c->session->{topic_id} = undef;
+    	  $c->stash(
+    	  		json => [ {	 status => 'success',  msg    => "Deleted thread id: ".$thread->id },
+    	  				  { id	   => $thread->id }
+				],
+				template => 'threads/delete_success.tt',
+		  );					
+    	
+    }else {
+		  $c->stash(
+		  	   json => [ { status => 'error', msg    => "Permission denied",},
+			   			 { id	   => $thread->id,}
+		  	   ],
+		       template => 'threads/delete_error.tt',
+	  	);
+    }
+}
+
+
 # Display all threads in an topic
 # Url: 
 #   - /threads
 # Agrs(0)
 sub list :Chained('base') :PathPart('') :Args(0){
     my ($selft, $c) = @_;
-    my $page = $c->req->params->{p} // 1;
+    my $page = $c->req->params->{p}//1;
+    
     my $rs = $c->stash->{rs}->search(
     	undef,
     	{   
-    		page => $page // 1,
-    		rows => 10
+    		page => $page, 
+    		rows => 10,
+    		order_by => { -desc => [ 'last_update'] },
+    		
     	},
     ); 
     
@@ -103,10 +142,12 @@ sub add :Chained('base') :PathPart('add') :Args(0) {
         # Setup new thread data
         foreach my $col ($thread_rsrc->columns) {
             if ( defined $params->{$col} ) {
-                $thread_data->{ $col } = $params->{ $col };   
+                $thread_data->{ $col } = HTML::Entities::encode($params->{ $col });   
             }    
         }
         $thread_data->{ user_id } = $c->user->id if $c->user_exists;
+        $thread_data->{date} = undef;
+        $thread_data->{last_update} = undef;        
         
          # Create new thread
         my $thread = $c->stash->{rs}->create($thread_data);
@@ -117,7 +158,7 @@ sub add :Chained('base') :PathPart('add') :Args(0) {
         # Setup new post data
         foreach my $col ($post_rsrc->result_source->columns) {
             if ( defined $params->{$col} ) {
-                $post_data->{ $col } = $params->{ $col };   
+                $post_data->{ $col } = HTML::Entities::encode($params->{ $col });   
             }    
         }
         $post_data->{ user_id }  = $c->user->id if $c->user_exists;
@@ -125,7 +166,7 @@ sub add :Chained('base') :PathPart('add') :Args(0) {
         
          # Create new post
         my $post = $post_rsrc ->create($post_data);
-		$c->res->redirect('/threads');
+		$c->res->redirect( $c->uri_for('/threads', $c->req->query_params));
         
     }else {
         # Render edit 

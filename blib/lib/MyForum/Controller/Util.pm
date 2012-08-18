@@ -55,10 +55,15 @@ sub upload :Local {
                 file_id     => $img->id,
                 file_url    => $c->uri_for($file_uri)->as_string,
             };
-            $c->stash(status => "success", data => $data);
+            $c->stash(json => [ { status => "success" },{ data => $data} ]);
             $c->forward("View::Service");
+            return;
 
          } 
+    }else {
+    	 $c->stash(status => "error", msg=> 'File not exists');
+         $c->forward("View::Service");
+         return;
     }
 }
 

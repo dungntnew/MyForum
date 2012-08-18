@@ -3,14 +3,20 @@
      <!-- TABLE HEADER-->
      <thead>
          <tr>
-              <th>&nbsp</th><th>[% c.socal('topic') %]</th><th>[% c.socal('lastpost') %]</th><th>[% c.socal('threads') %]</th><th>[% c.socal('posts') %]</th> 
+              <th>&nbsp</th><th>[% c.socal('topic') %]</th>
+              <th>[% c.socal('lastupdate') %]</th>
+              <th>[% c.socal('threads') %]</th>
+              <th>[% c.socal('posts') %]</th> 
+              [% IF c.user_exists && c.check_user_roles('admin') %]
+              <th>[% c.socal('operator') %]</th>
+              [% END %]
          </tr>
      </thead>
 
         <!-- TABLE BODY: MAIN CONTENT-->
         <tbody>
     [% WHILE (topic = rs.next) %]
-        <tr>
+        <tr id='topic_[% topic.id %]' class='state'>
             [% # This is Icon for each topic %]   
             <td class='state'>#ID [% topic.id %]</td> 
             
@@ -18,7 +24,7 @@
             <td class='title'>
                 <div>
                     <div>
-                        <a  href="[% c.uri_for("/topics/view/")_(topic.id) %]" alt="Show thread">
+                        <a  href="[% c.uri_for("/threads", c.req.mangle_params( {topic => topic.id}) ) %]" alt="Show thread">
                             [% topic.title %]
                         </a>
                     </div>
@@ -34,7 +40,7 @@
                 [% IF last_thread %]
                 <div>
                     <div>
-                        <a  href="[% c.uri_for("/")   %]" alt="Show thread">
+                        <a  href="[% c.uri_for("/posts", c.req.mangle_params( { topic => topic.id, thread => last_thread.id} ) )   %]" alt="Show thread">
                             [% last_thread.title %]
                         </a>
                     </div>
@@ -44,7 +50,7 @@
                             </a>
                     </div>
                     <div>
-                        [% last_thread.created_date %]
+                        [% last_thread.last_update_date %]
                     <div>
                 </div>
             [% END %]
@@ -55,6 +61,12 @@
             
             [% # Number of posts in this topic %]
             <td class='num'>[%  topic.num_posts %]</td>
+		    [% IF c.user_exists && c.check_user_roles('admin') %]
+		    <td class='operator'>
+		    	<a class='del_link_topic' href="[% c.uri_for( "/topics/delete/"_( topic.id ), c.req.query_params ) %]">[% c.socal('remove')%]</a>
+		    	<a class='edit_link_topic' href="[% c.uri_for( "/topics/edit/"_( topic.id ), c.req.query_params ) %]">[% c.socal('edit')%]</a>
+		    </td>
+		    [% END %]
         </tr>
     [% END %]
         </tbody> 
@@ -64,13 +76,13 @@
 	    <td>
 		[% IF c.user_exists %]
 			[% IF c.check_user_roles( 'admin' ) %]
-			<a href="[% c.uri_for('/topics/add') %]">[% c.socal('newtopic') %]</a>
+			<a id='topic_add_link' href="[% c.uri_for('/topics/add') %]">[% c.socal('newtopic') %]</a>
 			[% END %]
 		[% ELSE %]
 		   &nbsp
 		[% END %]
 	    </td>
-	    <td>&nbsp</td><td>&nbsp</td><td colspan='2'>
+	    <td>&nbsp</td><td>&nbsp</td><td colspan='3'>
 	    <div class='paper'>
 			<a href="[% c.uri_for('/topics', p => paper.first_page) %]">[% c.socal('firstpage') %]</a>
 			[% IF paper.previous_page %]
@@ -88,3 +100,11 @@
 	</tr>
     </tfoot>
 </table>
+<div class='reply' style='display: none'>
+	<div class="smallfont">
+		<h2 style="display: inline; padding: 0px; margin-top: 2px;font-size: 12px; margin-left: 15px;">[% c.socal('create_topic_msg') %]</h2>
+	</div>
+<hr style="background: #cccccc; width: 100%; margin:4px; height: 1px;"/>
+
+[% INCLUDE 'topics/add.tt' %]
+</div>

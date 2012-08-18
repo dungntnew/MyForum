@@ -10,17 +10,17 @@
 [% END %]
 
 <div class='post'>
-<table id="" class="tborder" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
+<table id="post_[% post.id %]" class="tborder" cellpadding="3" cellspacing="0" border="0" width="100%" align="center">
 <tbody>
 
 <tr>
 		<td class="thead" style="font-weight:normal; border: 0px solid #262626; border-right: 0px; text-align: center">
-			[% post.date %]
+			[% post.created_date %]
 		</td>
 
 		<td class="thead" style="font-weight:normal; border: 0px solid #262626; border-left: 0px" align="right">
 			&nbsp;
-			#<a href="" target="new" rel="nofollow" id="" name="7"><strong>[% post.id %]</strong></a>
+			#<a name="[% post.id %]"  rel="nofollow" id="" name="7"><strong>[% post.id %]</strong></a>
 		</td>
 	
 </tr>
@@ -87,7 +87,13 @@
 	</td>
 	
 	<td class="alt1" align="right" style="border: 0px solid #262626; border-left: 0px; border-top: 0px">
-		<a href="[% c.uri_for( c.controller('Posts').action_for('add') ) %]">[% c.socal('reply')%]</a>
+	[% IF c.user_exists && ( c.check_user_roles('admin') || c.user.id == post.user_id ) %]
+		<a class='edit_link' href="[% c.uri_for( "/posts/edit/"_( post.id ), c.req.query_params ) %]">[% c.socal('edit')%]</a>
+		<img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|">
+		<a class='del_link' href="[% c.uri_for( "/posts/delete/"_( post.id ), c.req.query_params ) %]">[% c.socal('remove')%]</a>
+		<img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|">
+	[% END %]
+		<a class='reply_link' href="[% c.uri_for( c.controller('Posts').action_for('add') ) %]">[% c.socal('reply')%]</a>
 	</td>
 </tr>
 

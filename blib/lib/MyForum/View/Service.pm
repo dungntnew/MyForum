@@ -3,6 +3,10 @@ package MyForum::View::Service;
 use strict;
 use base 'Catalyst::View::JSON';
 
+__PACKAGE__->config(
+    ENCODING     => 'utf-8',
+);
+
 =head1 NAME
 
 MyForum::View::Service - Catalyst JSON View

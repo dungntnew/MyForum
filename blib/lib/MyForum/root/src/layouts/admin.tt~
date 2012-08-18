@@ -4,7 +4,7 @@
 <!Doctype html>
 <html lang="end">
 <head>
-<title> YUKI-Home </title>
+<title> YUKI-Admin </title>
 <meta charset="UTF-8" />
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/main.css') %]">
 <link rel="stylesheet" type="text/css" href="[% c.uri_for('/static/css/table.css') %]">
@@ -30,7 +30,7 @@
     <nav id="nav">
 			<ul>
 				<li>
-					[% c.socal('lang') %]: <strong><a id="lang" href="[% c.uri_for(c.action, {lang=>nlang}) %]">[% lang %]</a></strong>
+					[% c.socal('lang') %]: <strong><a id="lang" href="[% c.uri_for(c.action, c.req.mangle_params({lang=>nlang})) %]">[% lang %]</a></strong>
 				</li>
 				<li><img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|"></li>
 				[% 	IF c.user_exists		%]
@@ -55,6 +55,12 @@
 				<li class='hi' style='display: [% hi %]'>
 					<a class="signIn" href="[% c.uri_for(c.controller('Auth').action_for('signIn')) %]">[% c.socal('signIn')%]</a>
 				</li>
+				<li class='welcome' style='display: [% hi %]'>
+					<img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|">
+				</li>
+				<li class='hi' style='display: [% hi %]'>
+					<a class="signUp" href="[% c.uri_for(c.controller('Auth').action_for('signUp')) %]">[% c.socal('signUp')%]</a>
+				</li>
 				
 				
 				
@@ -63,44 +69,45 @@
 			</ul>
 	</nav>
 	<div id="authdiv">
+		<div style='text-align: right'>
+			<span>
+				<a id='close' href='javascript:void(0)'>x</a>
+			</span>
+		</div>
 		<div id="authMsg"></div>
-		[% INCLUDE 'auth/login.tt' %]
+		<div id='auth'>
+			[% INCLUDE 'auth/login.tt' %]
+			[% INCLUDE 'auth/register.tt' %]
+		</div>
 	<div>
 </header>
 
 
 <div id="container">
-    <div class="status">
-    	<div id="msg"></div>
+	[% INCLUDE 'breadcrumb.tt' %]
+    <div id="status">
+    	<div id="msg">This a message </div><a href="javascript:void(0)" id="msg_close" popup='close'><span>X</a></span>
     </div>
     <div id='navbar'>
-		 <section>
-		    <header>
-		        <h3>User manager</h3>
-		    </header>
-		    <ul>
-		    <li><a href="[% c.uri_for('/admin/users/add')%]">Add user </a></li>
-		    <li><a href="[% c.uri_for('/admin/users')%]" >List users </a></li>
-		    </ul>
-		</section>
-		 <section>
-		    <header>
-		        <h3>Topic manager</h3>
-		    </header>
-		    <ul>
-		    <li><a href="[% c.uri_for('/admin/topic/add')%]">Add topic </a></li>
-		    <li><a href="[% c.uri_for('/admin/topic/list')%]">List topic </a></li>
-		    </ul>
-		</section>
-	</div>
-	
-    <div>
-        [% content %]
+    	<h4>[% c.socal('manager_forum')%]</h4>
+		<ul>
+			<li><a href='/topics/add'>[% c.socal('newtopic') %] </a></li>	
+			<li><a href='/topics'>[% c.socal('listtopics')%] </a></li>		
+		</ul>
+    	<h4>[% c.socal('manager_user')%]</h4>	
+    	<ul>
+			<li><a href='/admin/list_posts'>List all post </a></li>
+			<li><a href='/admin/list_threads'>List all post </a></li>
+			<li><a href='/admin/list_threads'>List all post </a></li>			
+		</ul>	
+    </div>
+    <div id='maincol'>
+    	[% content %]
     </div>
 </div>
 
 
-<footer id="copyright">
+<footer id="copyright" style='clear:both'>
     <section>Yuki-forum copyright@ dungntnew@kayac</section>
 </footer>
 </wrapper>

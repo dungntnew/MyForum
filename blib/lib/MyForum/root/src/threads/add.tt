@@ -1,36 +1,20 @@
-[% META title='New Thread' %]
+ [% META title='Template for add new thread' %]
 
-<form class='thread' id="addthread_form" method="post" action="[% c.uri_for(c.controller('Threads').action_for('add'))%]">
+<form class='threadadd' id="addthread_form" method="post" action="[% c.uri_for(c.controller('Threads').action_for('add'), c.req.query_params)%]">
 <input type="hidden" name="picture" id="picture" value=""/>
-
-<table class='tcreate'>
-<tr>
-	<td> <label for="title">[% c.socal('title') %]: </label><em>*</em> </td>
-	<td> <input type="text" name="title" id="title" size="80" class="required" minlength="4" autofocus></td>
-</tr>
-
-<tr>
-	<td><label for="body">[% c.socal('content') %]: </label><em>*</em></td>
-	<td> <textarea name='content' class='body' cols='80' rows='10' class="required"></textarea></td>
-</tr>
-</table>
+<input type="text" name="title" id="title" size='80' style='display: block' placeholder='[% c.socal('title') %]' value="" class='required'/>
+<textarea name='content' class='body' cols='80' rows='10' style='margin-top:20px' class="required" placeholder='[% c.socal('content') %]'></textarea></td>
 </form>
 
-<form class='thread' id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
-<table class='tcreate'>
-<tr>
-	<td><label for="image">[% c.socal('insert image') %]: </label><em>*</em></td>
-	<td>
-		<span class="file-wrapper">
-		<input type="file" name="file"/>
-		<img src="[% c.uri_for('/static/images/blank.png')%]" alt="choose picture" class="thread-image"/>
-		</span>
-	</td>
-</tr>
-</table>
+<form class='postadd' id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+		<fieldset>
+			<legend>[% c.socal('upload_option') %]</legend>
+			<span class="file-wrapper" style="margin-left: 10px">
+			<input type="file" name="file"/>
+			<img src="[% c.uri_for('/static/images/blank.png')%]" alt="choose picture" class="thread-image"/>
+			</span>
+		</fieldset>
 </form>
-<table class='tcreate'>
-<tr>
-	<td colspan='2'><input type="submit" id="thread_bnt" name="submit" value="[% c.socal('create') %]"/></td>
-</tr>
-</table>
+<div class="threadadd">
+	<input type="submit" id="thread_bnt" name="submit" value="[% c.socal('create') %]"/>
+</div>

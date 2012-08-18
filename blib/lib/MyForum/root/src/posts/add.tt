@@ -1,8 +1,9 @@
  [% META title='Template for add new post' %]
 
-<form class='postadd' id="addpost_form" method="post" action="[% c.uri_for(c.controller('Posts').action_for('add'))%]">
+<!-- Request to action post->add with current params -->
+<form class='postadd' id="addpost_form" method="post" action="[% c.uri_for(c.controller('Posts').action_for('add') , c.req.query_params)%]">
 <input type="hidden" name="picture" id="picture" value=""/>
-<textarea name='content' class='body' cols='80' rows='10' class="required"></textarea></td>
+<textarea name='content' id='text_content' class='body' cols='80' rows='10' style='margin-top:20px' class="required"></textarea></td>
 </form>
 
 <form class='postadd' id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">

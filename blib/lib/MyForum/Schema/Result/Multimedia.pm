@@ -24,7 +24,7 @@ __PACKAGE__->table("multimedia");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d8b8b0)
+  extra: HASH(0x3a34468)
   is_auto_increment: 1
   is_nullable: 0
   size: 10
@@ -33,7 +33,7 @@ __PACKAGE__->table("multimedia");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d8b7c0)
+  extra: HASH(0x3a34378)
   is_nullable: 0
   size: 10
 
@@ -103,8 +103,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-12 10:56:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:j/39APmhUYrs9pwOqJtJEA
+# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-15 23:54:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:V4ux1pc+023/KRkFiLnseg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration

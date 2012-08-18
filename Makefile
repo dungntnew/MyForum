@@ -16,7 +16,7 @@
 #     BUILD_REQUIRES => { Test::More=>q[0.88], ExtUtils::MakeMaker=>q[6.36] }
 #     CONFIGURE_REQUIRES => {  }
 #     DISTNAME => q[MyForum]
-#     EXE_FILES => [q[script/myforum_cgi.pl], q[script/myforum_create.pl], q[script/myforum_fastcgi.pl], q[script/myforum_server.pl], q[script/myforum_test.pl], q[script/set_hashed_passwords.pl]]
+#     EXE_FILES => [q[script/myforum_cgi.pl], q[script/myforum_create.pl], q[script/myforum_fastcgi.pl], q[script/myforum_server.pl], q[script/myforum_test.pl], q[script/putlink.pl], q[script/set_hashed_passwords.pl]]
 #     LICENSE => q[perl]
 #     NAME => q[MyForum]
 #     NO_META => q[1]
@@ -25,7 +25,7 @@
 #     VERSION_FROM => q[lib/MyForum.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
-#     test => { TESTS=>q[t/01app.t t/02pod.t t/03podcoverage.t t/controller_Admin.t t/controller_Auth.t t/controller_Posts.t t/controller_Threads.t t/controller_Topics.t t/controller_Users.t t/controller_Util.t t/model_DB.t t/view_HomeView.t t/view_Service.t] }
+#     test => { TESTS=>q[t/01app.t t/02pod.t t/03podcoverage.t t/controller_Admin.t t/controller_Auth.t t/controller_Posts.t t/controller_Search.t t/controller_Threads.t t/controller_Topics.t t/controller_Users.t t/controller_Util.t t/model_DB.t t/view_HomeView.t t/view_Service.t] }
 
 # --- MakeMaker post_initialize section:
 
@@ -177,6 +177,7 @@ MAN3PODS = lib/MyForum.pm \
 	lib/MyForum/Controller/Auth.pm \
 	lib/MyForum/Controller/Posts.pm \
 	lib/MyForum/Controller/Root.pm \
+	lib/MyForum/Controller/Search.pm \
 	lib/MyForum/Controller/Threads.pm \
 	lib/MyForum/Controller/Topics.pm \
 	lib/MyForum/Controller/Users.pm \
@@ -185,6 +186,7 @@ MAN3PODS = lib/MyForum.pm \
 	lib/MyForum/Schema/Result/Multimedia.pm \
 	lib/MyForum/Schema/Result/Post.pm \
 	lib/MyForum/Schema/Result/Role.pm \
+	lib/MyForum/Schema/Result/TestTable.pm \
 	lib/MyForum/Schema/Result/Thread.pm \
 	lib/MyForum/Schema/Result/Topic.pm \
 	lib/MyForum/Schema/Result/User.pm \
@@ -217,17 +219,18 @@ TO_INST_PM = lib/MyForum.pm \
 	lib/MyForum/Controller/Auth.pm \
 	lib/MyForum/Controller/Posts.pm \
 	lib/MyForum/Controller/Root.pm \
+	lib/MyForum/Controller/Search.pm \
 	lib/MyForum/Controller/Threads.pm \
 	lib/MyForum/Controller/Topics.pm \
 	lib/MyForum/Controller/Users.pm \
 	lib/MyForum/Controller/Util.pm \
-	lib/MyForum/Controller/user_bk \
 	lib/MyForum/Model/DB.pm \
 	lib/MyForum/Model/DB.pm.new \
 	lib/MyForum/Schema.pm \
 	lib/MyForum/Schema/Result/Multimedia.pm \
 	lib/MyForum/Schema/Result/Post.pm \
 	lib/MyForum/Schema/Result/Role.pm \
+	lib/MyForum/Schema/Result/TestTable.pm \
 	lib/MyForum/Schema/Result/Thread.pm \
 	lib/MyForum/Schema/Result/Topic.pm \
 	lib/MyForum/Schema/Result/User.pm \
@@ -249,6 +252,8 @@ PM_TO_BLIB = lib/MyForum/Controller/Users.pm \
 	blib/lib/MyForum/Controller/Admin.pm \
 	lib/MyForum/Schema/Result/User.pm \
 	blib/lib/MyForum/Schema/Result/User.pm \
+	lib/MyForum/Controller/Search.pm \
+	blib/lib/MyForum/Controller/Search.pm \
 	lib/MyForum/Schema/Result/Topic.pm \
 	blib/lib/MyForum/Schema/Result/Topic.pm \
 	lib/MyForum/Model/DB.pm.new \
@@ -259,14 +264,14 @@ PM_TO_BLIB = lib/MyForum/Controller/Users.pm \
 	blib/lib/MyForum/Controller/Threads.pm \
 	lib/MyForum/Schema.pm \
 	blib/lib/MyForum/Schema.pm \
-	lib/MyForum/Controller/user_bk \
-	blib/lib/MyForum/Controller/user_bk \
 	lib/MyForum/Schema/Result/Post.pm \
 	blib/lib/MyForum/Schema/Result/Post.pm \
 	lib/MyForum/Controller/Root.pm \
 	blib/lib/MyForum/Controller/Root.pm \
 	lib/MyForum/Controller/Util.pm \
 	blib/lib/MyForum/Controller/Util.pm \
+	lib/MyForum/Schema/Result/TestTable.pm \
+	blib/lib/MyForum/Schema/Result/TestTable.pm \
 	lib/MyForum/Schema/Result/Role.pm \
 	blib/lib/MyForum/Schema/Result/Role.pm \
 	lib/MyForum/Controller/Topics.pm \
@@ -512,18 +517,20 @@ manifypods : pure_all  \
 	lib/MyForum/Controller/Posts.pm \
 	lib/MyForum/Controller/Admin.pm \
 	lib/MyForum/Schema/Result/User.pm \
+	lib/MyForum/Controller/Search.pm \
 	lib/MyForum/Schema/Result/Topic.pm \
 	lib/MyForum/View/HomeView.pm \
 	lib/MyForum/Controller/Threads.pm \
 	lib/MyForum/Schema/Result/Post.pm \
 	lib/MyForum/Controller/Root.pm \
 	lib/MyForum/Controller/Util.pm \
+	lib/MyForum/Schema/Result/TestTable.pm \
 	lib/MyForum/Schema/Result/Role.pm \
 	lib/MyForum/Controller/Topics.pm \
 	lib/MyForum.pm \
+	lib/MyForum/Model/DB.pm \
 	lib/MyForum/Schema/Result/UserToRole.pm \
-	lib/MyForum/Controller/Auth.pm \
-	lib/MyForum/Model/DB.pm
+	lib/MyForum/Controller/Auth.pm
 	$(NOECHO) $(POD2MAN) --section=1 --perm_rw=$(PERM_RW) \
 	  script/myforum_test.pl $(INST_MAN1DIR)/myforum_test.pl.$(MAN1EXT) \
 	  script/myforum_create.pl $(INST_MAN1DIR)/myforum_create.pl.$(MAN1EXT) \
@@ -538,18 +545,20 @@ manifypods : pure_all  \
 	  lib/MyForum/Controller/Posts.pm $(INST_MAN3DIR)/MyForum::Controller::Posts.$(MAN3EXT) \
 	  lib/MyForum/Controller/Admin.pm $(INST_MAN3DIR)/MyForum::Controller::Admin.$(MAN3EXT) \
 	  lib/MyForum/Schema/Result/User.pm $(INST_MAN3DIR)/MyForum::Schema::Result::User.$(MAN3EXT) \
+	  lib/MyForum/Controller/Search.pm $(INST_MAN3DIR)/MyForum::Controller::Search.$(MAN3EXT) \
 	  lib/MyForum/Schema/Result/Topic.pm $(INST_MAN3DIR)/MyForum::Schema::Result::Topic.$(MAN3EXT) \
 	  lib/MyForum/View/HomeView.pm $(INST_MAN3DIR)/MyForum::View::HomeView.$(MAN3EXT) \
 	  lib/MyForum/Controller/Threads.pm $(INST_MAN3DIR)/MyForum::Controller::Threads.$(MAN3EXT) \
 	  lib/MyForum/Schema/Result/Post.pm $(INST_MAN3DIR)/MyForum::Schema::Result::Post.$(MAN3EXT) \
 	  lib/MyForum/Controller/Root.pm $(INST_MAN3DIR)/MyForum::Controller::Root.$(MAN3EXT) \
 	  lib/MyForum/Controller/Util.pm $(INST_MAN3DIR)/MyForum::Controller::Util.$(MAN3EXT) \
+	  lib/MyForum/Schema/Result/TestTable.pm $(INST_MAN3DIR)/MyForum::Schema::Result::TestTable.$(MAN3EXT) \
 	  lib/MyForum/Schema/Result/Role.pm $(INST_MAN3DIR)/MyForum::Schema::Result::Role.$(MAN3EXT) \
 	  lib/MyForum/Controller/Topics.pm $(INST_MAN3DIR)/MyForum::Controller::Topics.$(MAN3EXT) \
 	  lib/MyForum.pm $(INST_MAN3DIR)/MyForum.$(MAN3EXT) \
+	  lib/MyForum/Model/DB.pm $(INST_MAN3DIR)/MyForum::Model::DB.$(MAN3EXT) \
 	  lib/MyForum/Schema/Result/UserToRole.pm $(INST_MAN3DIR)/MyForum::Schema::Result::UserToRole.$(MAN3EXT) \
-	  lib/MyForum/Controller/Auth.pm $(INST_MAN3DIR)/MyForum::Controller::Auth.$(MAN3EXT) \
-	  lib/MyForum/Model/DB.pm $(INST_MAN3DIR)/MyForum::Model::DB.$(MAN3EXT) 
+	  lib/MyForum/Controller/Auth.pm $(INST_MAN3DIR)/MyForum::Controller::Auth.$(MAN3EXT) 
 
 
 
@@ -559,16 +568,17 @@ manifypods : pure_all  \
 
 # --- MakeMaker installbin section:
 
-EXE_FILES = script/myforum_cgi.pl script/myforum_create.pl script/myforum_fastcgi.pl script/myforum_server.pl script/myforum_test.pl script/set_hashed_passwords.pl
+EXE_FILES = script/myforum_cgi.pl script/myforum_create.pl script/myforum_fastcgi.pl script/myforum_server.pl script/myforum_test.pl script/putlink.pl script/set_hashed_passwords.pl
 
-pure_all :: $(INST_SCRIPT)/myforum_test.pl $(INST_SCRIPT)/myforum_create.pl $(INST_SCRIPT)/myforum_server.pl $(INST_SCRIPT)/myforum_cgi.pl $(INST_SCRIPT)/myforum_fastcgi.pl $(INST_SCRIPT)/set_hashed_passwords.pl
+pure_all :: $(INST_SCRIPT)/myforum_test.pl $(INST_SCRIPT)/myforum_create.pl $(INST_SCRIPT)/putlink.pl $(INST_SCRIPT)/myforum_server.pl $(INST_SCRIPT)/myforum_cgi.pl $(INST_SCRIPT)/myforum_fastcgi.pl $(INST_SCRIPT)/set_hashed_passwords.pl
 	$(NOECHO) $(NOOP)
 
 realclean ::
 	$(RM_F) \
 	  $(INST_SCRIPT)/myforum_test.pl $(INST_SCRIPT)/myforum_create.pl \
-	  $(INST_SCRIPT)/myforum_server.pl $(INST_SCRIPT)/myforum_cgi.pl \
-	  $(INST_SCRIPT)/myforum_fastcgi.pl $(INST_SCRIPT)/set_hashed_passwords.pl 
+	  $(INST_SCRIPT)/putlink.pl $(INST_SCRIPT)/myforum_server.pl \
+	  $(INST_SCRIPT)/myforum_cgi.pl $(INST_SCRIPT)/myforum_fastcgi.pl \
+	  $(INST_SCRIPT)/set_hashed_passwords.pl 
 
 $(INST_SCRIPT)/myforum_test.pl : script/myforum_test.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/myforum_test.pl
@@ -581,6 +591,12 @@ $(INST_SCRIPT)/myforum_create.pl : script/myforum_create.pl $(FIRST_MAKEFILE) $(
 	$(CP) script/myforum_create.pl $(INST_SCRIPT)/myforum_create.pl
 	$(FIXIN) $(INST_SCRIPT)/myforum_create.pl
 	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/myforum_create.pl
+
+$(INST_SCRIPT)/putlink.pl : script/putlink.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
+	$(NOECHO) $(RM_F) $(INST_SCRIPT)/putlink.pl
+	$(CP) script/putlink.pl $(INST_SCRIPT)/putlink.pl
+	$(FIXIN) $(INST_SCRIPT)/putlink.pl
+	-$(NOECHO) $(CHMOD) $(PERM_RWX) $(INST_SCRIPT)/putlink.pl
 
 $(INST_SCRIPT)/myforum_server.pl : script/myforum_server.pl $(FIRST_MAKEFILE) $(INST_SCRIPT)$(DFSEP).exists $(INST_BIN)$(DFSEP).exists
 	$(NOECHO) $(RM_F) $(INST_SCRIPT)/myforum_server.pl
@@ -929,7 +945,7 @@ $(MAKE_APERL_FILE) : $(FIRST_MAKEFILE) pm_to_blib
 TEST_VERBOSE=0
 TEST_TYPE=test_$(LINKTYPE)
 TEST_FILE = test.pl
-TEST_FILES = t/01app.t t/02pod.t t/03podcoverage.t t/controller_Admin.t t/controller_Auth.t t/controller_Posts.t t/controller_Threads.t t/controller_Topics.t t/controller_Users.t t/controller_Util.t t/model_DB.t t/view_HomeView.t t/view_Service.t
+TEST_FILES = t/01app.t t/02pod.t t/03podcoverage.t t/controller_Admin.t t/controller_Auth.t t/controller_Posts.t t/controller_Search.t t/controller_Threads.t t/controller_Topics.t t/controller_Users.t t/controller_Util.t t/model_DB.t t/view_HomeView.t t/view_Service.t
 TESTDB_SW = -d
 
 testdb :: testdb_$(LINKTYPE)
@@ -993,15 +1009,16 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/MyForum/Controller/Posts.pm blib/lib/MyForum/Controller/Posts.pm \
 	  lib/MyForum/Controller/Admin.pm blib/lib/MyForum/Controller/Admin.pm \
 	  lib/MyForum/Schema/Result/User.pm blib/lib/MyForum/Schema/Result/User.pm \
+	  lib/MyForum/Controller/Search.pm blib/lib/MyForum/Controller/Search.pm \
 	  lib/MyForum/Schema/Result/Topic.pm blib/lib/MyForum/Schema/Result/Topic.pm \
 	  lib/MyForum/Model/DB.pm.new blib/lib/MyForum/Model/DB.pm.new \
 	  lib/MyForum/View/HomeView.pm blib/lib/MyForum/View/HomeView.pm \
 	  lib/MyForum/Controller/Threads.pm blib/lib/MyForum/Controller/Threads.pm \
 	  lib/MyForum/Schema.pm blib/lib/MyForum/Schema.pm \
-	  lib/MyForum/Controller/user_bk blib/lib/MyForum/Controller/user_bk \
 	  lib/MyForum/Schema/Result/Post.pm blib/lib/MyForum/Schema/Result/Post.pm \
 	  lib/MyForum/Controller/Root.pm blib/lib/MyForum/Controller/Root.pm \
 	  lib/MyForum/Controller/Util.pm blib/lib/MyForum/Controller/Util.pm \
+	  lib/MyForum/Schema/Result/TestTable.pm blib/lib/MyForum/Schema/Result/TestTable.pm \
 	  lib/MyForum/Schema/Result/Role.pm blib/lib/MyForum/Schema/Result/Role.pm \
 	  lib/MyForum/Controller/Topics.pm blib/lib/MyForum/Controller/Topics.pm \
 	  lib/MyForum.pm blib/lib/MyForum.pm \

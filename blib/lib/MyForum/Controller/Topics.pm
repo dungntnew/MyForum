@@ -63,53 +63,79 @@ sub item :Chained('base') :PathPart("") :Args(2){
 }
 
 
-# Add new Topic
-sub add :Chained('base') :PathPart('add') :Args(0) {
+
+sub edit :Chained('item') :PathPart('edit') :Args(0) {
     my ($self, $c) = @_;
-    # ========== CHECK Permission HERE ==========
-    # -------------------------------------------
-    my $user_id = 0; # Get user_id and check permission!.
-    # OK
-    
-    my $title = $c->request->params->{title};
-    my $desc  = $c->request->params->{description};
+    if ( $c->user_exists &&  $c->check_user_roles('admin')  ) {
+		if ( lc $c->req->method eq 'post') {
+		    my $params = $c->req->params;
+		    my $topic_rsrc = $c->stash->{rs}->result_source;
+		    my $topic_data = {}; 
 
-
-    
-}
-
-sub edit :Chained('base') :PathPart('edit') :Args(0) {
-    my ($self, $c) = @_;
-    $c->stash(template => 'topics/edit.tt'); 
-}
-
-sub add :Chained('base') :PathPart('add') :Args(0) {
-    my ($self, $c) = @_;
-    # Check permision here
-    # Handle form submited
-    
-    if ( lc $c->req->method eq 'post') {
-        my $params = $c->req->params;
-        my $topic_rsrc = $c->stash->{rs}->result_source;
-        my $topic_data = {}; 
-
-        # Setup new topic data
-        foreach my $col ($topic_rsrc->columns) {
-            if ( defined $params->{$col} ) {
-                $topic_data->{ $col } = $params->{ $col };   
-            }    
-        }
-        $topic_data->{ user_id } = $c->user->id if $c->user_exists;
-        
-         # Create new thread
-		$c->stash->{rs}->create($topic_data);
-		$c->res->redirect('/topics');
-  
+		    foreach my $col ($topic_rsrc->columns) {
+		        if ( defined $params->{$col} ) {
+		            $topic_data->{ $col } = $params->{ $col };   
+		        }    
+		    }
+			$c->stash->{item}->update($topic_data);
+			$c->res->redirect($c->uri_for('/topics', $c->req->query_params));
+		}else {
+		    $c->stash( template => 'topics/edit.tt') ;    
+		}
     }else {
-        # Render edit 
-        $c->stash( template => 'topics/add.tt') ;    
-    } 	
+    	   $c->stash( template => 'auth/access_denied.tt') ; 
+    }
 }
+
+sub add :Chained('base') :PathPart('add') :Args(0) {
+    my ($self, $c) = @_;
+    if ( $c->user_exists &&  $c->check_user_roles('admin')  ) {
+		if ( lc $c->req->method eq 'post') {
+		    my $params = $c->req->params;
+		    my $topic_rsrc = $c->stash->{rs}->result_source;
+		    my $topic_data = {}; 
+
+		    foreach my $col ($topic_rsrc->columns) {
+		        if ( defined $params->{$col} ) {
+		            $topic_data->{ $col } = $params->{ $col };   
+		        }    
+		    }
+		    $topic_data->{ user_id } = $c->user->id if $c->user_exists;
+		    
+			$c->stash->{rs}->create($topic_data);
+			$c->res->redirect('/topics');
+	  
+		}else {
+		    $c->stash( template => 'topics/add.tt') ;    
+		}
+    }else {
+    	   $c->stash( template => 'auth/access_denied.tt') ; 
+    }	
+}
+
+# URL: /posts/delete/id
+sub delete :Chained('item') :PathPart('delete') :Args(0) {
+    my ($self, $c) = @_;
+    
+    my $topic = $c->stash->{item};
+    if ( $c->user_exists &&  $c->check_user_roles('admin')  ) {
+    	  $c->stash->{item}->delete;
+    	  $c->session->{topic_id} = undef;
+    	  $c->stash(
+    	  		json => [ {	 status => 'success',  msg    => "Deleted topic id: $topic->id" },
+    	  				  { id	   => $topic->id }
+				],
+		  );					
+    	
+    }else {
+		  $c->stash(
+		  	   json => [ { status => 'error', msg    => "Permission denied",},
+			   			 { id	   => $topic->id,}
+		  	   ],
+	  	);
+    }
+}
+
 sub list :Chained('base') : PathPart('') :Args(0) {
     my ($self, $c) = @_;
     

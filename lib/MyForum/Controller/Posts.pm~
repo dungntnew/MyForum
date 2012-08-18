@@ -103,6 +103,12 @@ sub edit :Chained('item') :PathPart('edit') :Args(0) {
 		            $post_data->{ $col } = $params->{ $col };   
 		        }    
 		    }
+		      # Put link for all email add, link url in post content
+		     my $email_regex = '\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b';
+			 my $url_regex   = '\b(?:(?:ht|f)tps?\://)?(?:www.|[a-zA-Z])[a-zA-Z0-9\-\.]+\.[A-Z]{2,4}(?:\:[0-9]+)*(?:/(?:$|[a-zA-Z0-9\.+\,\;\?\'\\\+&amp;%\$#\=~_\-]+))*\b';
+			 $post_data->{content} =~ s{(.*?)($email_regex)(.*?)}{$1 <a href="mailto:$2">$2</a> $3}ig;
+		     $post_data->{content} =~ s{(.*?)(?:^|\s+)($url_regex)(.*?)}{$1 <a href='$2'>$2</a> $3}ig;
+         
 			$c->stash->{item}->update($post_data);
 			$c->res->redirect($c->uri_for('/posts', $c->req->query_params));
 		}else {
@@ -127,7 +133,7 @@ sub add :Chained('base') :PathPart('add') :Args(0) {
         # Setup new post data
         foreach my $col ($post_rsrc->columns) {
             if ( defined $params->{$col} ) {
-                $post_data->{ $col } = HTML::Entities::encode($params->{ $col });   
+                $post_data->{ $col } = $params->{ $col };   #HTML::Entities::encode($params->{ $col });   
             }    
         }
         $post_data->{ user_id } = $c->user->id if $c->user_exists;

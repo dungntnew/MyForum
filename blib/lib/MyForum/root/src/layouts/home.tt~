@@ -30,7 +30,7 @@
     <nav id="nav">
 			<ul>
 				<li>
-					[% c.socal('lang') %]: <strong><a id="lang" href="[% c.uri_for(c.action, {lang=>nlang}) %]">[% lang %]</a></strong>
+					[% c.socal('lang') %]: <strong><a id="lang" href="[% c.uri_for(c.action, c.req.mangle_params({lang=>nlang})) %]">[% lang %]</a></strong>
 				</li>
 				<li><img class="separator" src="[% c.uri_for('/static/images/nav/separator.gif') %]" alt="|"></li>
 				[% 	IF c.user_exists		%]
@@ -84,9 +84,12 @@
 
 
 <div id="container">
-	[% INCLUDE 'navigation.tt' %]
-    <div class="status">
-    	<div id="msg"></div>
+	<div style='margin-top: 10px; margin-bottom:10px'>
+	[% INCLUDE 'breadcrumb.tt' %]</br>
+	[% INCLUDE 'search.tt' %]
+	</div>
+    <div id="status">
+    	<div id="msg">This a message </div><a href="javascript:void(0)" id="msg_close" popup='close'><span>X</a></span>
     </div>
         [% content %]
 </div>

@@ -2,6 +2,7 @@
 	margin: 0;
 	padding: 0;
 	border: 0;
+	list-style:none;
 	-webkit-text-size-adjust: none;
 }
 
@@ -33,10 +34,51 @@ b {
 	margin-bottom: 0px;
 }
 
+#navbar {
+	width: 12%;
+	display:block;
+	float:left;
+	border-right: 1px solid #cccccc;
+	height: 120px;
+}
+
+#maincol {
+	
+	display:block;
+	float:left;
+	height: 100%;
+}
+
 .clearfix {
 	clear: both;
 }
-
+.access_denied {
+	margin-top: 30px;
+	color: red;
+	background: #cccccc;
+	text-align: center;
+}
+#status {
+	background-color: #EDFAF1;
+	display: block;
+	color: #5C75FA;
+	width: 100%;
+	overflow: hidden;
+}
+#msg {
+	width: 98%;
+	float:left;
+}
+#msg_close {
+	width: 15px;
+	display: block;
+	float: left;
+	text-align: center;
+	font-size:12px;
+}
+.success {
+	color: blue;
+}
 /* Nav Styles */
 
 #navigation {
@@ -58,7 +100,6 @@ b {
 
 #nav {
 	float: right;
-	padding: 3px 0 0 400px;
 }
 
 #nav ul {
@@ -73,7 +114,6 @@ b {
 img.separator {
 	width: 1px;
 	height: 12px;
-	display: block;
 }
 
 /* Authentication - Login*/
@@ -90,6 +130,11 @@ img.separator {
 }
 #signInDiv, #signUpDiv {
 	width: 180px;
+}
+#signInDiv input, #signInDiv label,
+ #signUpDiv input, #signUpDiv label {
+	display: block;
+	
 }
 
 #button_nav {
@@ -112,8 +157,8 @@ input, textarea {
 	font-size: 12px;
 	line-height: 14px;
 	font-weight: normal;
-	margin: 3px 0 15px 0;
 	background-color: #ffffff;
+	display:block;	
 }
 
 label {
@@ -122,9 +167,15 @@ label {
 	vertical-align: top;
 }
 
-.error{
-color: red;
+label.error{
+	color: blue;;
 
+}
+label.checked {
+	color: blue;
+}
+.field {
+	margin-top: 10px;
 }
 #copyright {
         font-size: 10px;
@@ -167,7 +218,7 @@ color: red;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    border: thin solid green;
+    border: thin solid #cccccc;
     width: 64px;
     height: 64px;
     text-align: center;

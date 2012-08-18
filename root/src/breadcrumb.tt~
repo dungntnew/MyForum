@@ -4,7 +4,7 @@
      [% IF loop.last %]
             [% item.label %]
         [% ELSE %]
-            <a href="[% c.uri_for(item.path) %]">[%item.label%]</a>>
+            <a href="[% c.uri_for(item.path) %]">[%item.label%]</a>&nbsp>
         [% END %]
     [% END %]
     </li>

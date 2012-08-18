@@ -124,7 +124,7 @@
 .\" ========================================================================
 .\"
 .IX Title "MyForum::Schema::Result::Thread 3"
-.TH MyForum::Schema::Result::Thread 3 "2012-08-15" "perl v5.10.1" "User Contributed Perl Documentation"
+.TH MyForum::Schema::Result::Thread 3 "2012-08-18" "perl v5.10.1" "User Contributed Perl Documentation"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -138,7 +138,7 @@ MyForum::Schema::Result::Thread
 .Vb 6
 \&  data_type: INT
 \&  default_value: undef
-\&  extra: HASH(0x3d8fc08)
+\&  extra: HASH(0x3a39d40)
 \&  is_auto_increment: 1
 \&  is_nullable: 0
 \&  size: 11
@@ -169,6 +169,14 @@ MyForum::Schema::Result::Thread
 .Ve
 .SS "date"
 .IX Subsection "date"
+.Vb 4
+\&  data_type: TIMESTAMP
+\&  default_value: 0000\-00\-00 00:00:00
+\&  is_nullable: 0
+\&  size: 14
+.Ve
+.SS "last_update"
+.IX Subsection "last_update"
 .Vb 4
 \&  data_type: TIMESTAMP
 \&  default_value: CURRENT_TIMESTAMP

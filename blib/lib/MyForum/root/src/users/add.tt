@@ -1,5 +1,5 @@
 [% META title="Add new user" %]
-<form id="upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
+<form id="avatar_upload_form" method ="post" enctype="multipart/form-data" action="[% c.uri_for(c.controller('Util').action_for('upload'))%]">
  <p>
     <span class="file-wrapper">
     <input type="file" name="file"/>

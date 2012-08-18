@@ -28,6 +28,7 @@ use Catalyst qw/
     Session::State::Cookie
     StatusMessage
     Localize::Simple
+    Breadcrumbs
     
 /;
 
@@ -70,6 +71,7 @@ __PACKAGE__->config(
 	'Localize::Simple'	=> {
 		_sessionkey		=> 'lang',
 		en				=> 'root/localize/en.yaml',
+		jp				=> 'root/localize/jp.yaml',
 		vi				=> 'root/localize/vi.yaml',
 	}
 );
@@ -83,7 +85,7 @@ __PACKAGE__->config(
         ENCODING    => 'utf-8',
     },
     'View::Service'  => {
-        expose_stash    => [ qw( status msg id data )],    
+        expose_stash    => 'json'#[ qw( json status msg id data )],  
     },
 );
 
@@ -93,10 +95,26 @@ __PACKAGE__->config(
         default => {
             class       => 'SimpleDB',
             user_model  => 'DB::User',
+            password_type   => 'self_check',
         },    
     },
 );
 
+# Config BreadCrumbs
+__PACKAGE__->config(
+	'Plugin::Breadcrumbs' => {
+		 breadcrumbs => {
+            hide_index => 0,
+            hide_home  => 0,
+            labels     => {
+                '/'       => 'Home',
+                '/posts' => 'Posts',
+                '/topics' => 'Topic',
+                '/threads' => 'Thread',                                
+            },
+        },
+	},
+);
 # Start the application
 __PACKAGE__->setup();
 

@@ -84,9 +84,12 @@
 
 
 <div id="container">
-	[% INCLUDE 'breadcrumb.tt' %]
+	<div style='margin-top: 10px; margin-bottom:10px'>
+	[% INCLUDE 'breadcrumb.tt' %]</br>
+	[% INCLUDE 'search.tt' %]
+	</div>
     <div id="status">
-    	<div id="msg">This a message </div><a href="javascript:void(0)" id="msg_close" rel='close'><span>X</a></span>
+    	<div id="msg">This a message </div><a href="javascript:void(0)" id="msg_close" popup='close'><span>X</a></span>
     </div>
         [% content %]
 </div>

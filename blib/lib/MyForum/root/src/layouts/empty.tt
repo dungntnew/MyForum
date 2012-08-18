@@ -87,7 +87,11 @@
     <div class="status">
     	<div id="msg"></div>
     </div>
+    <center>
+    <div style='margin:10px auto'>
         [% content %]
+    </div>
+    </center>
 </div>
 
 

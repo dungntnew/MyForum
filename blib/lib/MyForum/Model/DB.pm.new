@@ -10,6 +10,7 @@ __PACKAGE__->config(
         dsn => 'dbi:mysql:mydb',
         user => 'root',
         password => 'abc123',
+        ,overwrite_modifications => q{1},
     }
 );
 

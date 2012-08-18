@@ -1,4 +1,4 @@
-<ul id="breadcrumbs">
+<ul id="breadcrumbs" style='float:left;width:40%'>
     [% FOREACH item IN c.breadcrumbs %]
     <li style="display: inline">
      [% IF loop.last %]

@@ -20,9 +20,17 @@ td, th, p, li {
 	margin: 10px auto;
 	width: 500px;
 }
+.threadadd {
+	margin: 10px auto;
+	width: 500px;
+}
 fieldset {
 	border: 1px solid #CCC;
 	font-size: 11px;
+}
+legend {
+	margin-left: 10px;
+	margin-right: 2px;
 }
 .tborder {
 	border: 1px solid #cccccc;

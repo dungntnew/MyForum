@@ -15,7 +15,7 @@ table.tcreate {
 	text-align: left;
 	width: 100%;
 }
-table.tcreate td {
+table.tcreate td,table.tcreate td label {
 	vertical-align: top;
 }
 table.list {
@@ -59,12 +59,16 @@ table.list a {
 	color: #797070;
 }
 table.list td.state {
-	width: 80px;
+	width: 110px;
 }
 table.list td.title {
 	width: 600px;
 }
 table.list td.num {
+	width: 80px;
+	text-align: center;
+}
+table.list td.operator {
 	width: 80px;
 	text-align: center;
 }

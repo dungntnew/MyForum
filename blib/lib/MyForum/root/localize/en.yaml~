@@ -21,7 +21,9 @@ newthread: New Thread
 topic: Topic
 thread: Thread
 lastpost: Last post
+lastupdate: Last Update
 topics: Topics
+listtopics: List Topics 
 posts: Posts
 threads: Threads
 firstpage: First
@@ -31,8 +33,19 @@ answers: Answers
 viewed: Vieweds
 login_error: Your username or password invalid
 reply: Reply
+remove: Remove
+edit: Edit
+update: Update
+access_denied: Access denied
 date: Date
 upload_option: Upload options
 reply_msg: Quick Reply
-
-
+edit_msg: Update post
+create_thread_msg: Create new thread
+create_topic_msg: Create new Topic
+msg_delete_error: Permission denied
+msg_delete_success: Post have been removed successful
+msg_register_success: Congratulations, your account have been registered successfully
+operator: Operations
+manager_forum: Manager Forum
+manager_user: Manager Forum

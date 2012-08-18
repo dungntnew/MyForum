@@ -23,14 +23,14 @@ $(document).ready(function(){
       */
     //$('#container').append("<div id='ajax-loading'><img src='/static/images/ajax-loader.gif'></div>");
     
-    $(document).ajaxStart(function(){
+    /*$(document).ajaxStart(function(){
         $("#msg").empty();
         $('#ajax-loading').fadeIn('fast');        
     }).ajaxStop(function(){
         $('#ajax-loading').fadeOut('slow');
     });
 
-    
+    */    
     /**
      * Load section
      */
@@ -41,28 +41,68 @@ $(document).ready(function(){
     /*
      * Upload image
      */
-     /* Start upload */
-      $("#upload_form").ajaxForm( {
-            success: function (response, statusText, xhr) {
+      $("#upload_form").validate({
+     	rules: {
+     		file : {
+     			accept: 'jpg|png|gif',
+     		}
+     	},
+     	
+ 		submitHandler: function(form) {
+			$(form).ajaxSubmit({
+				clearForm: true,
+				success: function (res, statusText, xhr) {
+		            if (res[0]['status'] == 'success'){
+		                $("#picture").attr("value", res[1]['data']['file_url']); 
+		                $("#upload_form img").attr("src", res[1]['data']['file_url']);
+		               	$("#upload_form input").width(400);
+		               	//setMsg("Upload file successful","success" );
+		            }else {
+		                //setMsg("Upload fail: "+statusText, "error");    
+		            }
+            	}
+			});
+			return false;
+		},
+     });
+     
 
-                if (response['status'] == 'success'){
-                    $("#avatar").attr("value", response['data']['file_url']); 
-                    $("#picture").attr("value", response['data']['file_url']); 
-                    $("#upload_form img").attr("src", response['data']['file_url']);
-                   	$("#upload_form input").width(400);
-                   	setMsg("Upload file successful","success" );
-                }else {
-                    setMsg("Upload fail: "+statusText, "error");    
-                }
-            }
-             
-      });
-
-     $("input[type=file]").bind("change select", function() {
+     $("#upload_form input[type=file]").bind("change select", function() {
          var file = $(this).val(); 
          $("#upload_form").trigger("submit");
       });
-        
+       
+       
+      
+	 $("#avatar_upload_form").validate({
+     	rules: {
+     		file : {
+     			accept: 'jpg|png|gif',
+     		}
+     	},
+     	
+ 		submitHandler: function(form) {
+			$(form).ajaxSubmit({
+			    clearForm: true,	
+				success: function (res, statusText, xhr) {
+		            if (res[0]['status'] == 'success'){
+		                $("#avatar").attr("value", res[1]['data']['file_url']); 
+		                $("#avatar_upload_form img").attr("src", res[1]['data']['file_url']);
+		               	//setMsg("Upload file successful","success" );
+		            }else {
+		                //setMsg("Upload fail: "+statusText, "error");    
+		            }
+            	}
+			});
+			return false;
+		},
+     });	
+     
+     $("#avatar_upload_form input[type=file]").bind("change select", function() {
+         var file = $(this).val(); 
+         $("#avatar_upload_form").trigger("submit");
+      });
+         
 
     /*
      * User manager section
@@ -78,35 +118,16 @@ $(document).ready(function(){
 		$("#authdiv").fadeIn();
 		return false;
 	 });
-      /*
-  		User Login
-    
-     $("a.signIn").click(function() {
-		$("#authdiv").fadeIn();
-		$("#loginform").validate( {
-		
-			submitHandler: function(form) {
-				$(form).ajaxSubmit({
-					type: 'post',
-					dataType: 'json',
-					success: function ( res, statusText, xhr){
-						 if (res['status'] == 'error') {
-                        	 setMsg('SignIn fail, '+ res['msg'], 'error', '#authMsg');
-                        	
-                     	 }else{
-                        	  setMsg("SignIn successful", "success",'#authMsg'); 
-                        	  setUser(res);
-                        	  $("#authdiv").fadeOut();
-                      	}
-					}
-				});
-				return false;
-			},
-		});
-		return false;
-	 });*/
-	 
-	 $("#registerform").validate();	
+	  
+	  /* Close bnt*/
+      $('#close').click(function() {
+      		$("#authdiv").fadeOut();
+      });
+      /* Close bnt*/
+      $('#msg_close').click(function() {
+      		$("#status").fadeOut();
+      });
+      
      $("a.signUp").click(function() {
      	$("#signInDiv").css("display", "none");
      	$("#signUpDiv").css("display", "block");
@@ -114,22 +135,71 @@ $(document).ready(function(){
 		return false;
 	 });
       
-      /* Close bnt*/
-      $('#close').click(function() {
-      		$("#authdiv").fadeOut();
-      });
+   
      /* Validate -- Create */
-     $("#adduser_form").validate( {
+     $("#registerform").validate( {
+		rules: {
+			first_name: "required",
+			last_name: "required",
+			username: {
+				required: true,
+				minlength: 2,
+				remote: "auth/validate"
+			},
+			password: {
+				required: true,
+				minlength: 6
+			},
+			confirm: {
+				required: true,
+				minlength: 6,
+				equalTo: "#password"
+			},
+			email: {
+				required: true,
+				email: true,
+				remote: "auth/validate"
+			},
+		},
+		messages: {
+			first_name: "Enter your firstname",
+			last_name: "Enter your lastname",
+			username: {
+				required: "Enter a username",
+				minlength: jQuery.format("Enter at least {0} characters"),
+				remote: jQuery.format("{0} is already in use")
+			},
+			password: {
+				required: "Provide a password",
+				rangelength: jQuery.format("Enter at least {0} characters")
+			},
+			confirm: {
+				required: "Repeat your password",
+				minlength: jQuery.format("Enter at least {0} characters"),
+				equalTo: "Enter the same password as above"
+			},
+			email: {
+				required: "Please enter a valid email address",
+				minlength: "Please enter a valid email address",
+				remote: jQuery.format("{0} is already in use")
+			},
+		},
+		// set this class to error-labels to indicate valid fields
+		success: function(label) {
+			label.html("&nbsp;").addClass("checked");
+		},
         submitHandler: function(form) {
             $(form).ajaxSubmit({
                 type: 'post',
                 dataType: 'json',
-                success : function ( response, statusText, xhr) {
+                clearForm: true,
+                success : function ( res, statusText, xhr) {
 
-                     if (response['status'] == 'error') {
-                         setMsg('Create user fail, '+ response['msg'], 'error'); 
+                     if (res[0]['status'] == 'error') {
+                         setMsg('Create user fail, '+ res[0]['msg'], 'error' ,'#authMsg'); 
                       }else{
-                         setMsg("Created user successful", "success"); 
+                         setMsg(res[0]['msg'], "success");
+                         $("#authdiv").fadeOut();
                       }
                       setScroll();
                  }
@@ -147,12 +217,12 @@ $(document).ready(function(){
                type: 'get',
                url: $(this).attr('href'),
                dataType: 'json',
-               success: function ( response, statusText, xhr) {
-                   if ( response['status'] == 'success' ){
-                        setMsg("Deleted success user id: "+ response['id'], "success");
-                        $("#row"+response['id']).remove();
+               success: function ( res, statusText, xhr) {
+                   if ( res[0]['status'] == 'success' ){
+                        setMsg("Deleted success user id: "+ res[1]['id'], "success");
+                        $("#row"+res[1]['id']).remove();
                     }else {
-                        setMsg("Could not delete user id: "+ response['id'] + response["error"], "error");    
+                        setMsg("Could not delete user id: "+ res[1]['id'] + res[0]["error"], "error");    
                     }
                },
          });  
@@ -174,16 +244,134 @@ $(document).ready(function(){
      * Thread manager section
      *
      */
-     $("#addthread_form").validate();	
-     $("#addtopic_form").validate();
-     $("#addpost_form").validate();	
+     
+     $("#thread_add_link").click(function() {
+     	$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+     	$(".reply").fadeIn();
+     	return false;
+     });
+     
+      $("#topic_add_link").click(function() {
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+     	$(".reply").fadeIn();
+       	return false;   	
+     });
+     
+      $(".reply_link").click(function() {
+      	$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+     	$(".reply").fadeIn();
+     	return false;     	
+     });
+     
+     $("#addthread_form").validate({
+     	rules: {
+     		content: {
+     			required: true,
+     			rangelength: [10, 512],
+     		},
+     		title: {
+     			required: true,
+     			rangelength: [10, 128],
+     		},
+     	},
+     });	
+     $("#addtopic_form").validate({
+     	rules: {
+     		description: {
+     			required: true,
+     			rangelength: [10, 512],
+     		},
+     		title: {
+     			required: true,
+     			rangelength: [10, 128],
+     		},
+     	},
+     });
+     $("#addpost_form").validate({
+     	rules: {
+     		content: {
+     			required: true,
+     			rangelength: [2, 512],
+     		},
+     	},
+     });	
      $("#thread_bnt").bind("click", function() {
          $("#addthread_form").trigger("submit");
      });
+     
+     $("#topic_bnt").bind("click", function() {
+         $("#addtopic_form").trigger("submit");
+     });
+     
       
 	  $("#post_bnt").bind("click", function() {
 		 $("#addpost_form").trigger("submit");
 	  });
+	  
+	  /*Delete Post*/
+     $(".del_link").click( function() {
+         
+         /* Start Ajax */
+         $.ajax ({
+               type: 'get',
+               url: $(this).attr('href'),
+               dataType: 'json',
+               success: function ( res, statusText, xhr) {
+                   if ( res[0]['status'] == 'success' ){
+                        setMsg("Deleted success post id: "+ res[1]['id'], "success");
+                        $("#post_"+res[1]['id']).remove();
+                    }else {
+                        setMsg("Could not delete post id: "+ res[1]['id'] + " "+res[0]["msg"], "error");    
+                    }
+               },
+         });  
+         
+         setScroll();
+         return false;
+     });
+     
+      /*Delete Topic*/
+     $(".del_link_topic").click( function() {
+         
+         /* Start Ajax */
+         $.ajax ({
+               type: 'get',
+               url: $(this).attr('href'),
+               dataType: 'json',
+               success: function ( res, statusText, xhr) {
+                   if ( res[0]['status'] == 'success' ){
+                        setMsg("Deleted success topic id: "+ res[1]['id'], "success");
+                        $("#topic_"+res[1]['id']).remove();
+                    }else {
+                        setMsg("Could not delete topic id: "+ res[1]['id'] + " "+res[0]["msg"], "error");    
+                    }
+               },
+         });
+         setScroll();
+         return false;
+     });
+         
+      /*Delete Thread*/
+     $(".del_link_thread").click( function() {
+         
+         /* Start Ajax */
+         $.ajax ({
+               type: 'get',
+               url: $(this).attr('href'),
+               dataType: 'json',
+               success: function ( res, statusText, xhr) {
+                   if ( res[0]['status'] == 'success' ){
+                        setMsg("Deleted success thread id: "+ res[1]['id'], "success");
+                        $("#thread_"+res[1]['id']).remove();
+                    }else {
+                        setMsg("Could not delete thread id: "+ res[1]['id'] + " "+res[0]["msg"], "error");    
+                    }
+               },
+         }); 
+         
+         setScroll();
+         return false;
+     });
 
     
 });
@@ -206,6 +394,7 @@ function setMsg( msg, css, id) {
 	 	$(id).removeClass().addClass(css).html(msg).fadeIn(100);
 	 }else {
 	     $("#msg").removeClass().addClass(css).html(msg).fadeIn(100);
+	     $("#status").fadeIn(100);
 	 }
 }
 
@@ -216,8 +405,6 @@ function setUser(data) {
 
 /* -- Scroll to top --*/
 function setScroll() {
-    $("#content").animate( {
-        scrollTop: 0    
-    }, 500);    
+   $("html, body").animate({ scrollTop: 0 }, 1000);   
 }
 

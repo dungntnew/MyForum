@@ -63,7 +63,7 @@
             <td class='num'>[%  topic.num_posts %]</td>
 		    [% IF c.user_exists && c.check_user_roles('admin') %]
 		    <td class='operator'>
-		    	<a class='del_link_topic' href="[% c.uri_for( "/topics/delete/"_( topic.id ), c.req.query_params ) %]">[% c.socal('remove')%]</a>
+		    	<a class='del_link_topic' href="[% c.uri_for( "/topics/delete/"_( topic.id ), c.req.query_params ) %]">[% c.socal('remove')%]</a></br>
 		    	<a class='edit_link_topic' href="[% c.uri_for( "/topics/edit/"_( topic.id ), c.req.query_params ) %]">[% c.socal('edit')%]</a>
 		    </td>
 		    [% END %]

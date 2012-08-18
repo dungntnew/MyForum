@@ -27,8 +27,6 @@ sub index :Path :Args(0) {
     $c->stash->{template} = 'admintest.tt';
 
 }
-
-
 =head1 AUTHOR
 
 NTD

@@ -24,7 +24,7 @@ __PACKAGE__->table("topic");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d86638)
+  extra: HASH(0x3a346c0)
   is_auto_increment: 1
   is_nullable: 0
   size: 11
@@ -105,8 +105,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-12 10:56:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:y9IA3hfG13FdhrNiLwcU/Q
+# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-15 23:54:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:nv7fpapH03gaVjirj0awiw
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -122,7 +122,7 @@ sub num_threads {
 # Return total of posts in a topic
 sub num_posts {
     my ($self)  = @_;
-    my $num_posts = undef; 
+    my $num_posts = 0; 
     foreach my $thread ($self->threads) {
         $num_posts += $thread->num_posts;    
     }
@@ -134,7 +134,10 @@ sub num_posts {
 # Return last thread
 sub last_thread {
     my ($self)  = @_;
-    return $self->threads->first;
+    return $self->threads->search(
+        undef, 
+        { order_by => { -desc => 'last_update'}, rows => 1 }
+    )->single;
 }
 
 # Return created date with formart
@@ -145,6 +148,7 @@ sub created_date {
 	return $dt->ymd('-'). ' ' .$dt->hour_12(). ':'.$dt->minute().' '.$dt->am_or_pm(); 
 }
 
+# Return list threads 
 ## Relationships
 # ====================== HAVE MANY ==========================================
 
@@ -153,7 +157,6 @@ __PACKAGE__->has_many(
     'threads',
     'MyForum::Schema::Result::Thread', 
     'topic_id',
-    { order_by => { -desc => 'date' }},
 );
 
 # ====================== BELONG_TO ==========================================

@@ -24,7 +24,7 @@ __PACKAGE__->table("post");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d96390)
+  extra: HASH(0x3a40908)
   is_auto_increment: 1
   is_nullable: 0
   size: 11
@@ -105,8 +105,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-12 10:56:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:dsV+xx0z1qShOm1uIFXvLg
+# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-15 23:54:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:1V8VVoNlMMRy3JyBBGwJlw
 
 ## Custom methods
 

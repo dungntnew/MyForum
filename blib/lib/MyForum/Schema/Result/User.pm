@@ -24,7 +24,7 @@ __PACKAGE__->table("user");
 
   data_type: INT
   default_value: undef
-  extra: HASH(0x3d96ab0)
+  extra: HASH(0x3a40008)
   is_auto_increment: 1
   is_nullable: 0
   size: 10
@@ -157,8 +157,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-12 10:56:53
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:g5kE5GnIEs9GZ8mT1Q4ehg
+# Created by DBIx::Class::Schema::Loader v0.05003 @ 2012-08-15 23:54:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ra1cUyOvzqkXUzOGbTklwg
 
 
 # You can replace this text with custom content, and it will be preserved on regeneration
@@ -166,17 +166,17 @@ __PACKAGE__->set_primary_key("id");
 # Add Columns for USER
 #
 
-#__PACKAGE__->add_columns(
-#    'password'  => {
-#        passphrase       =>'rfc2307',
-#        passphrase_class =>'SaltedDigest',
-#        passphrase_args  => {
-#              algorithm     => 'SHA-1',
-#              salt_random   => 20
-#        },
-#        passphrase_check_method => 'check_password',
-#    },
-#);
+__PACKAGE__->add_columns(
+    'password'  => {
+        passphrase       =>'rfc2307',
+        passphrase_class =>'SaltedDigest',
+        passphrase_args  => {
+              algorithm     => 'SHA-1',
+              salt_random   => 20
+        },
+        passphrase_check_method => 'check_password',
+    },
+);
 
 sub fullname {
 	my ($self)  = @_;
